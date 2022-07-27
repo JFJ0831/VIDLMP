@@ -16,7 +16,7 @@ Im diesem Blog soll ein GAN vorgestellt werden, welches in der Lage ist echt aus
 Bevor es um den eigentlichen Code geht, muss der theoretische Aufbau und Ablauf erläutert werden.
 Wie bei vielen anderen Modellen die sich mit maschinellem Lernen befassen sind oft hunterte oder gar hunterttausende Trainingsdurchläufe notwendig, bis das Modell ein zufriedenstellendes Ergebnis liefert. 
 Im Fall von GANs handelt es sich dabei um ein sogenanntes Nash-Gleichgewicht, also einen Zustand, bei dem es sich weder für den Diskriminator, noch für den Generator lohnt sich zu verändern.
-Welche Herausforderungen damit verbunden sind, wird später [hier](##Herausforderungen beim GAN-Training und Anpassungsmöglichkeiten) erklärt. Zuerst geht es jetzt um die zwei Phasen eines Trainingsdurchlaufs.
+Welche Herausforderungen damit verbunden sind, wird später [hier](##herausforderungen-beim-gan-training-und-anpassungsmöglichkeiten) erklärt. Zuerst geht es jetzt um die zwei Phasen eines Trainingsdurchlaufs.
 
 ### Erste Phase
 Der erste Teil des GANs, der Generator, wird mit einem zufälligen Input gefüttert. In vielen Fällen handelt es sich dabei um gaußsches Rauschen, aber auch andere Verteilungen sind möglich.

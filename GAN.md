@@ -38,4 +38,4 @@ Der Generator $G$ soll eine Wahrscheinlichkeitsdichtefunktion $p_g$ erstellen, s
 Der Diskriminator $D$ entscheidet, ob $p_g=p_{data}$, oder nicht. In ersterem Fall ist es dem Generator $G$ gelungen den Diskriminator $D$ zu täuschen.
 Der Generator $G$ erhält, wie als Eingabe Werte $z$ aus einer beliebigen Verteilung. Meist handelt es sich, wie bereits geschrieben, um Gaußsches Rauschen, also die Normalverteilung.
 
-![Abbildung 1](https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png)
+![Abbildung 1](https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png "Abbildung 1" width="256")

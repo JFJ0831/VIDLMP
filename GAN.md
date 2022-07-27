@@ -39,3 +39,6 @@ Der Diskriminator $D$ entscheidet, ob $p_g=p_{data}$, oder nicht. In ersterem Fa
 Der Generator $G$ erhält, wie als Eingabe Werte $z$ aus einer beliebigen Verteilung. Meist handelt es sich, wie bereits geschrieben, um Gaußsches Rauschen, also die Normalverteilung.
 
 <img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png" title="Abbildung 1" width="256"/>
+<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_2.png" title="Abbildung 2" width="256"/>
+<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 3" width="256"/>
+<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_4.png" title="Abbildung 4" width="256"/>

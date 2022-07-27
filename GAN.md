@@ -34,5 +34,5 @@ Negative Auswirkungen auf die Leistung des Discriminators lassen sich unterbinde
 Nach Aktualisierung der Generatorgewichte kann ein neuer Durchlauf begonnen werden.
 
 ## Mathematischer Ablauf
-Der Generator $G$ soll eine Wahrscheinlichkeitsdichtefunktion $p_g$ erstellen, sodass $G(z)$ mit der gleichen Wahrscheinlichkeit in einem Intervall $[a, b]$ liegt, wie die Zufallsvariable $x$ in einem Intervall $[a, b]$ der Wahrscheinlichkeitsdichtefunktion $p_data$.
-Der Diskriminator entscheidet, ob $p_g=p_data$, oder nicht. In ersterem Fall ist es dem Generator gelungen den Diskriminator zu täuschen.
+Der Generator $G$ soll eine Wahrscheinlichkeitsdichtefunktion $p_g$ erstellen, sodass $G(z)$ mit der gleichen Wahrscheinlichkeit in einem Intervall $[a, b]$ liegt, wie die Zufallsvariable $x$ in einem Intervall $[a, b]$ der Wahrscheinlichkeitsdichtefunktion $p_{data}$.
+Der Diskriminator entscheidet, ob $p_g=p_{data}$, oder nicht. In ersterem Fall ist es dem Generator gelungen den Diskriminator zu täuschen.

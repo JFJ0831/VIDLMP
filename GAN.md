@@ -15,7 +15,7 @@ In diesem Bereich nehmen die sogenannten StyleGANs eine Vorreiterrolle ein.
 Im diesem Blog soll ein GAN vorgestellt werden, welches in der Lage ist echt aussehende Bilder von Früchten zu generieren.
 Bevor es um den eigentlichen Code geht, muss der theoretische Aufbau und Ablauf erläutert werden.
 Wie bei vielen anderen Modellen die sich mit maschinellem Lernen befassen sind oft hunterte oder gar hunterttausende Trainingsdurchläufe notwendig, bis das Modell ein zufriedenstellendes Ergebnis liefert. 
-Im Fall von GANs handelt es sich dabei um ein sogenanntes <a href="https://en.wikipedia.org/wiki/Nash_equilibrium" style="color:black">Nash-Gleichgewicht</a>, also einen Zustand, bei dem es sich weder für den Diskriminator, noch für den Generator lohnt sich zu verändern.
+Im Fall von GANs handelt es sich dabei um ein sogenanntes <a href="https://en.wikipedia.org/wiki/Nash_equilibrium" style="color: black">Nash-Gleichgewicht</a>, also einen Zustand, bei dem es sich weder für den Diskriminator, noch für den Generator lohnt sich zu verändern.
 Welche Herausforderungen damit verbunden sind, wird später [hier](##herausforderungen-beim-gan-training-und-anpassungsmöglichkeiten) erklärt. Zuerst geht es jetzt um die zwei Phasen eines Trainingsdurchlaufs.
 
 ### Erste Phase

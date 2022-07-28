@@ -78,24 +78,38 @@ Die echten Daten werden mit dem Label $y=1$ und die unechten Daten mit dem Label
 
 Auch wird als Label trotz unechter Daten $y=1$ übermittelt.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 23%; margin-right: 1%; margin-bottom: 0.5em;"><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png" style="width: 23%">Abbildung 1</p><p style="float: left; font-size: 9pt; text-align: center; width: 23%; margin-right: 1%; margin-bottom: 0.5em;"><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_2.png" style="width: 23%">Abbildung 2</p><p style="float: left; font-size: 9pt; text-align: center; width: 23%; margin-right: 1%; margin-bottom: 0.5em;"><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" style="width: 23%">Abbildung 3</p><p style="float: left; font-size: 9pt; text-align: center; width: 23%; margin-right: 1%; margin-bottom: 0.5em;"><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_4.png" style="width: 23%">Abbildung 4</p><p style="clear: both;">
 
 
-<p align="center" display="inline-block">
+<div align="center" caption-side="bottom">
 	<figure>
-		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png" title="Abbildung 1" width="256" id="Abb_1"/>
+		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png" title="Abbildung 1" width="14%" id="Abb_1"/>
 		<figcaption>Abbildung 1</figcaption>
 	</figure>
 	<figure>
-		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_2.png" title="Abbildung 2" width="256" id="Abb_2"/>
+		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_2.png" title="Abbildung 2" width="14%" id="Abb_2"/>
 		<figcaption>Abbildung 2</figcaption>
 	</figure>
 	<figure>
-		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 3" width="256" id="Abb_3"/>
+		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 3" width="14%" id="Abb_3"/>
 		<figcaption>Abbildung 3</figcaption>
 	</figure>
 	<figure>	
-		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_4.png" title="Abbildung 4" width="256" id="Abb_4"/>
+		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_4.png" title="Abbildung 4" width="14%" id="Abb_4"/>
 		<figcaption>Abbildung 4</figcaption>
 	<figure>
-</p>
+</div>
+
+<table>
+	<tr>
+		<th><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png" title="Abbildung 1" width="100%" id="Abb_1"/></th>
+		<th><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_2.png" title="Abbildung 2" width="100%" id="Abb_1"/></th>
+		<th><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 3" width="100%" id="Abb_1"/></th>
+		<th><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 4" width="100%" id="Abb_1"/></th>
+	</tr>
+	<tr>
+		<th>Abbildung 1</th>
+		<th>Abbildung 2</th>
+		<th>Abbildung 3</th>
+		<th>Abbildung 4</th>
+	</tr>
+</table>

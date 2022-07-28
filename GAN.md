@@ -40,11 +40,32 @@ Negative Auswirkungen auf die Leistung des Discriminators lassen sich unterbinde
 Nach Aktualisierung der Generatorgewichte kann ein neuer Durchlauf begonnen werden.
 
 ## Herausforderungen beim GAN-Training und Anpassungsmöglichkeiten
-Wenn gewünscht, ist es mithilfe von Hyperparametern möglich den ersten und/oder den zweiten Schritt mehrfach hintereinander auszuführen.
+
+### Vanishing Gradients
+Falls erwünscht, ist es mithilfe von Hyperparametern möglich den ersten und/oder den zweiten Schritt mehrfach hintereinander auszuführen.
 Wenn pro Trainingsdurchlauf beispielsweise der erste Schritt häufiger durchlaufen wird als der zweite, so erhält man einen Diskriminator, der deutlich besser echte Daten von unechten Daten des aktuellen Generators unterscheiden kann.
-Ob dies negative oder positive Auswirkungen bei der Erreichung eines guten Generators hat, muss für jedes GAN ausprobiert werden.
+Ein (annähernd) perfekter Diskriminator kann das Vanishing-Gradient-Problem hervorrufen. Bei einem Verlust nahe null passiert es schnell, dass die Gradienten im Bereich des Generators so klein werden, dass sich der Generator quasi nicht verbessern kann.
+Tritt dieses Problem zu Beginn des Trainings auf, so bleibt es bei einem vollkommen unbrauchbaren Generator.
+Das Auftreten des Problems lässt sich pauschal nicht vorhersagen, jedoch neigt beispielsweise die MinMax-Verlustfunktion dazu. 
+Die Wahl einer anderen Verlustfunktion, wie dem Wassersteinverlust, wirken dem Phänomen entgegen [1](https://arxiv.org/pdf/1701.07875.pdf). 
 
 ### Mode Collapse
+Mode Collapse beschreibt einen Zustand in dem der Generator Daten ausgibt, die weniger divers sind, als die echten Daten.
+Der Generator produziert als beispielsweise nur Bilder von Ananas, obwohl in der Verteilung der echten Daten Ananas, Orangen und Kirschen vorkommen.
+Dieses Problem entsteht, wenn es dem Generator deutlich leichter fällt mit einer Klasse von Daten den Diskriminator zu täuschen.
+Das Generatortraining führt dann dazu, dass immer mehr solcher Daten erzeugt werden bis letztendlich nur noch Ananasbilder an den Diskriminator übergeben werden.
+Nach einer Weile kann es für den Diskriminator günstig sein die Ananasbilder alle abzulehnen. In der Folge ist der Generator gezwungen auf eine neue Frucht zu wechseln.
+So werden, wie in <a href="#Abb_5">Abbildung 5</a> zu sehen, nach und nach alle Klassen durchlaufen, ohne das es zu einem universell guten geschweige einem optimalen Ergebnis kommt.
+<p align="center">
+	<figure>
+		<img src="https://github.com/JFJ0831/VIDLMP/blob/5671b345d9edc07654fd0d05b630ede431fff642/10_1.png" title="Abbildung 5" id="Abb_5"/>
+		<figcaption>Abbildung 5</figcaption>
+	</figure>
+</p>
+Auch hier kann die Wassersteinverlustfunktion helfen [1](https://arxiv.org/pdf/1701.07875.pdf).
+Daneben gibt es das sogenannte Unrolling [2](https://arxiv.org/pdf/1611.02163.pdf). 
+
+###
 
 
 ## Mathematischer Ablauf

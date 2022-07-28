@@ -59,7 +59,7 @@ So werden, wie in <a href="#Abb_5">Abbildung 5</a> zu sehen, nach und nach alle 
 <p align="center">
 	<figure>
 		<img src="https://github.com/JFJ0831/VIDLMP/blob/5671b345d9edc07654fd0d05b630ede431fff642/10_1.png" title="Abbildung 5" id="Abb_5"/>
-		<figcaption>Abbildung 5</figcaption>
+		<figcaption>Abbildung 5: Darstellung von Mode Collapse. Target ist die Verteilung der echten Daten, links ist nach unterschiedlich vielen Trainingsdurchläufen zu erkennen, dass der Generator zwischen cerschiedenen Klassen wechselt, es jedoch nicht schafft die gesamte Verteilung zu reproduzieren.</figcaption>
 	</figure>
 </p>
 Auch hier kann die Wassersteinverlustfunktion helfen [1](https://arxiv.org/pdf/1701.07875.pdf).
@@ -80,8 +80,20 @@ Auch wird als Label trotz unechter Daten $y=1$ übermittelt.
 
 
 <p align="center">
-	<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png" title="Abbildung 1" width="256"/>
-	<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_2.png" title="Abbildung 2" width="256"/>
-	<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 3" width="256"/>
-	<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_4.png" title="Abbildung 4" width="256"/>
+	<figure>
+		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png" title="Abbildung 1" width="256" id="Abb_1"/>
+		<figcaption>Abbildung 1</figcaption>
+	</figure>
+	<figure>
+		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_2.png" title="Abbildung 2" width="256" id="Abb_2"/>
+		<figcaption>Abbildung 2</figcaption>
+	</figure>
+	<figure>
+		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 3" width="256" id="Abb_3"/>
+		<figcaption>Abbildung 3</figcaption>
+	</figure>
+	<figure>	
+		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_4.png" title="Abbildung 4" width="256" id="Abb_4"/>
+		<figcaption>Abbildung 4</figcaption>
+	<figure>
 </p>

@@ -5,7 +5,7 @@ Generative Adversarial Networks, kurz GAN, gehören zu den generativen Modellen.
 GANs bestehen aus zwei neuronalen Netzen welche gegeneinander antreten.
 Eins der beiden Netze, Generator genannt, versucht dabei echte Daten so gut zu imitieren, dass das andere Teilnetz, der Discriminator, nicht in der Lage ist, die neu generierten Daten von echten Daten zu unterscheiden.
 
-## Wozu werden GANs verwendet
+## Wozu werden GANs verwendet?
 Im ursprünglichen Forschungspaper von Ian Goodfellow et al. wurde ein GAN erstellt, welches Bilder von Zahlen generieren kann, die so aussehen, wie die aus dem MNIST-Datensatz.
 Mittlerweile wurden GANs in einer Vielzahl von Anwendungsgebieten erfolgreich eingesetzt. Dazu sei jedoch gesagt, dass die verwendeten Modelle deutlich komplexer geworden sind, als das ursprüngliche.
 Die prominenteste Verwendung für GANs ist wohl im Bereich der Bildgenerierung und insbesondere der Generierung von Gesichtern nicht existierender Personen angesiedelt.
@@ -15,7 +15,7 @@ In diesem Bereich nehmen die sogenannten StyleGANs eine Vorreiterrolle ein.
 Im diesem Blog soll ein GAN vorgestellt werden, welches in der Lage ist echt aussehende Bilder von Früchten zu generieren.
 Bevor es um den eigentlichen Code geht, muss der theoretische Aufbau und Ablauf erläutert werden.
 Wie bei vielen anderen Modellen die sich mit maschinellem Lernen befassen sind oft hunterte oder gar hunterttausende Trainingsdurchläufe notwendig, bis das Modell ein zufriedenstellendes Ergebnis liefert. 
-Im Fall von GANs handelt es sich dabei um ein sogenanntes Nash-Gleichgewicht, also einen Zustand, bei dem es sich weder für den Diskriminator, noch für den Generator lohnt sich zu verändern.
+Im Fall von GANs handelt es sich dabei um ein sogenanntes <a href="https://en.wikipedia.org/wiki/Nash_equilibrium">Nash-Gleichgewicht</a>, also einen Zustand, bei dem es sich weder für den Diskriminator, noch für den Generator lohnt sich zu verändern.
 Welche Herausforderungen damit verbunden sind, wird später [hier](##herausforderungen-beim-gan-training-und-anpassungsmöglichkeiten) erklärt. Zuerst geht es jetzt um die zwei Phasen eines Trainingsdurchlaufs.
 
 ### Erste Phase
@@ -44,6 +44,7 @@ Wenn gewünscht, ist es mithilfe von Hyperparametern möglich den ersten und/ode
 Wenn pro Trainingsdurchlauf beispielsweise der erste Schritt häufiger durchlaufen wird als der zweite, so erhält man einen Diskriminator, der deutlich besser echte Daten von unechten Daten des aktuellen Generators unterscheiden kann.
 Ob dies negative oder positive Auswirkungen bei der Erreichung eines guten Generators hat, muss für jedes GAN ausprobiert werden.
 
+### Mode Collapse
 
 
 ## Mathematischer Ablauf

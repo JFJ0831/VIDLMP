@@ -63,9 +63,26 @@ So werden, wie in <a href="#Abb_5">Abbildung 5</a> zu sehen, nach und nach alle 
 	</figure>
 </p>
 Auch hier kann die Wassersteinverlustfunktion helfen [1](https://arxiv.org/pdf/1701.07875.pdf).
-Daneben gibt es das sogenannte Unrolling [2](https://arxiv.org/pdf/1611.02163.pdf). 
+Daneben gibt es das sogenannte Unrolling [2](https://arxiv.org/pdf/1611.02163.pdf).
+Im Gegensatz zum Training des Generators bei einem normalen GAN, werden bei Unrolled GANs nacheinander mehrere neue Gewichte für den Diskriminator berechnet, bevor basierend auf dem letzten Verlust Backpropagation zur Anpassung der Generatorgewichte stattfindet.
+Die neuen Generatorgewichte berücksichtigen so zukünftige, noch nicht durchgeführte Anpassungen des Diskriminators. Das Training des Diskriminators bleibt unverändert.
+Das Training des Generators sieht demnach im Detail so aus:
+	1. Aus zufälligem Rauschen und mit den aktuellen Generatorgewichten neue Daten generieren.
+	2. Diskriminator versucht die generierten Daten als solche zu erkennen.
+	3. Berechnung des Verlustes.
+	4. Erstellen eines neuen Gewichtsvektors für den Diskriminator basierend auf dem alten Vektor und den berechneten Gradienten (Gradientenaufstieg).
+	5. Beliebig häufige Wiederholung der Schritte 1-4 mit den aktuellsten Diskriminatorgewichten.
+	6. Berechnung des letzten Verlustes.
+	7. Backpropagation des Gradienten über alle Wiederholungen.
+	8. Anpassung der Generatorgewichte mittels Gradientenabstieg.
+<p align="center">
+	<figure>
+		<img src="" title="Abbildung 6" id="Abb_6"/>
+		<figcaption>Abbildung 6: Schematische Darstellung eines dreistufigen unrolled GAN. [2]</figcaption>
+	</figure>
+</p>
 
-###
+### Divergenz/Oszillazion
 
 
 ## Mathematischer Ablauf

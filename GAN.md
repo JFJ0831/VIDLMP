@@ -47,7 +47,7 @@ Wenn pro Trainingsdurchlauf beispielsweise der erste Schritt häufiger durchlauf
 Ein (annähernd) perfekter Diskriminator kann das Vanishing-Gradient-Problem hervorrufen. Bei einem Verlust nahe null passiert es schnell, dass die Gradienten im Bereich des Generators so klein werden, dass sich der Generator quasi nicht verbessern kann.
 Tritt dieses Problem zu Beginn des Trainings auf, so bleibt es bei einem vollkommen unbrauchbaren Generator.
 Das Auftreten des Problems lässt sich pauschal nicht vorhersagen, jedoch neigt beispielsweise die MinMax-Verlustfunktion dazu. 
-Die Wahl einer anderen Verlustfunktion, wie dem Wassersteinverlust, wirken dem Phänomen entgegen [1](https://arxiv.org/pdf/1701.07875.pdf). 
+Die Wahl einer anderen Verlustfunktion, wie dem Wassersteinverlust, wirken dem Phänomen entgegen [2][2]. 
 
 ### Mode Collapse
 Mode Collapse beschreibt einen Zustand in dem der Generator Daten ausgibt, die weniger divers sind, als die echten Daten.
@@ -62,8 +62,8 @@ So werden, wie in <a href="#Abb_5">Abbildung 5</a> zu sehen, nach und nach alle 
 		<figcaption>Abbildung 5: Darstellung von Mode Collapse. Target ist die Verteilung der echten Daten, links ist nach unterschiedlich vielen Trainingsdurchläufen zu erkennen, dass der Generator zwischen cerschiedenen Klassen wechselt, es jedoch nicht schafft die gesamte Verteilung zu reproduzieren.</figcaption>
 	</figure>
 </p>
-Auch hier kann die Wassersteinverlustfunktion helfen [1](https://arxiv.org/pdf/1701.07875.pdf).
-Daneben gibt es das sogenannte Unrolling [2](https://arxiv.org/pdf/1611.02163.pdf).
+Auch hier kann die Wassersteinverlustfunktion helfen [2][2].
+Daneben gibt es das sogenannte Unrolling [3][3].
 Im Gegensatz zum Training des Generators bei einem normalen GAN, werden bei Unrolled GANs nacheinander mehrere neue Gewichte für den Diskriminator berechnet, bevor basierend auf dem letzten Verlust Backpropagation zur Anpassung der Generatorgewichte stattfindet.
 Die neuen Generatorgewichte berücksichtigen so zukünftige, noch nicht durchgeführte Anpassungen des Diskriminators. Das Training des Diskriminators bleibt unverändert.
 Das Training des Generators sieht demnach im Detail so aus:
@@ -80,7 +80,7 @@ Das Training des Generators sieht demnach im Detail so aus:
 <p align="center">
 	<figure>
 		<img src="" title="Abbildung 6" id="Abb_6"/>
-		<figcaption>Abbildung 6: Schematische Darstellung eines dreistufigen unrolled GAN. [2]</figcaption>
+		<figcaption>Abbildung 6: Schematische Darstellung eines dreistufigen unrolled GAN. [3][3]</figcaption>
 	</figure>
 </p>
 
@@ -132,3 +132,9 @@ Auch wird als Label trotz unechter Daten $y=1$ übermittelt.
 		<th>Abbildung 4</th>
 	</tr>
 </table>
+
+## Quellen und Referenzen
+
+[1]: https://arxiv.org/pdf/1406.2661.pdf "Generative Adversarial Nets"
+[2]: https://arxiv.org/pdf/1701.07875.pdf "Wasserstein GAN"
+[3]: https://arxiv.org/pdf/1611.02163.pdf "Unrolled Generative Adversarial Networks"

@@ -78,18 +78,8 @@ Die echten Daten werden mit dem Label $y=1$ und die unechten Daten mit dem Label
 
 Auch wird als Label trotz unechter Daten $y=1$ übermittelt.
 
-<p style="float: left; font-size: 9pt; text-align: center; width: 24%; margin-right: 1%; margin-bottom: 0.5em;">
-	<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png" style="width: 100%">Abbildung 1
-</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 24%; margin-right: 1%; margin-bottom: 0.5em;">
-	<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_2.png" style="width: 100%">Abbildung 2
-</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 24%; margin-right: 1%; margin-bottom: 0.5em;">
-	<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" style="width: 100%">Abbildung 3
-</p>
-<p style="float: left; font-size: 9pt; text-align: center; width: 24%; margin-right: 1%; margin-bottom: 0.5em;">
-	<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_4.png" style="width: 100%">Abbildung 4
-</p>
+<p style="float: left; font-size: 9pt; text-align: center; width: 24%; margin-right: 1%; margin-bottom: 0.5em;"><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png" style="width: 100%">Abbildung 1</p><p style="float: left; font-size: 9pt; text-align: center; width: 24%; margin-right: 1%; margin-bottom: 0.5em;"><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_2.png" style="width: 100%">Abbildung 2</p><p style="float: left; font-size: 9pt; text-align: center; width: 24%; margin-right: 1%; margin-bottom: 0.5em;"><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" style="width: 100%">Abbildung 3</p><p style="float: left; font-size: 9pt; text-align: center; width: 24%; margin-right: 1%; margin-bottom: 0.5em;"><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_4.png" style="width: 100%">Abbildung 4</p><p style="clear: both;">
+
 
 <p align="center" display="inline-block">
 	<figure>

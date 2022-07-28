@@ -79,7 +79,7 @@ Die echten Daten werden mit dem Label $y=1$ und die unechten Daten mit dem Label
 Auch wird als Label trotz unechter Daten $y=1$ übermittelt.
 
 
-<p align="center">
+<p align="center" display="inline-block">
 	<figure>
 		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png" title="Abbildung 1" width="256" id="Abb_1"/>
 		<figcaption>Abbildung 1</figcaption>

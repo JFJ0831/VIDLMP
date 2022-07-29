@@ -41,13 +41,20 @@ Nach Aktualisierung der Generatorgewichte kann ein neuer Durchlauf begonnen werd
 
 ## Herausforderungen beim GAN-Training und Anpassungsmöglichkeiten
 
-### Vanishing Gradients
 Falls erwünscht, ist es mithilfe von Hyperparametern möglich den ersten und/oder den zweiten Schritt mehrfach hintereinander auszuführen.
 Wenn pro Trainingsdurchlauf beispielsweise der erste Schritt häufiger durchlaufen wird als der zweite, so erhält man einen Diskriminator, der deutlich besser echte Daten von unechten Daten des aktuellen Generators unterscheiden kann.
+
+### Vanishing Gradients
 Ein (annähernd) perfekter Diskriminator kann das Vanishing-Gradient-Problem hervorrufen. Bei einem Verlust nahe null passiert es schnell, dass die Gradienten im Bereich des Generators so klein werden, dass sich der Generator quasi nicht verbessern kann.
 Tritt dieses Problem zu Beginn des Trainings auf, so bleibt es bei einem vollkommen unbrauchbaren Generator.
 Das Auftreten des Problems lässt sich pauschal nicht vorhersagen, jedoch neigt beispielsweise die MinMax-Verlustfunktion dazu. 
 Die Wahl einer anderen Verlustfunktion, wie dem Wassersteinverlust, wirken dem Phänomen entgegen [^2]. 
+
+### Instabilität/Oszillazion
+Das Training von GANs gestaltet sich schwierig, da die beiden Teilnetze gegeneinander arbeiten. Die Eingaben können unzählige Dimensionen haben und die Kostenfunktion ist meist nicht konvex. [^5]
+Das Erreichen des Nash-Gleichgewichts ist deshalb keinesfalls garantiert. Das Training kann auf zahlreiche Arten beeinflusst werden.
+Die Wahl der Hyperparameter kann den Unterschied zwischen einem konvergierenden GAN machen und einem GAN welches mit dem Training gar nicht erst loslegt.
+
 
 ### Mode Collapse
 Mode Collapse beschreibt einen Zustand in dem der Generator Daten ausgibt, die weniger divers sind, als die echten Daten.
@@ -58,7 +65,7 @@ Nach einer Weile kann es für den Diskriminator günstig sein die Ananasbilder a
 So werden, wie in Abbildung 5 zu sehen, nach und nach alle Klassen durchlaufen, ohne das es zu einem universell guten geschweige einem optimalen Ergebnis kommt.
 
 ![Abbildung 5](https://github.com/JFJ0831/VIDLMP/blob/5671b345d9edc07654fd0d05b630ede431fff642/10_1.png)
-*Abbildung 5: Darstellung von Mode Collapse. Target ist die Verteilung der echten Daten, links ist nach unterschiedlich vielen Trainingsdurchläufen zu erkennen, dass der Generator zwischen cerschiedenen Klassen wechselt, es jedoch nicht schafft die gesamte Verteilung zu reproduzieren [^2].*
+*Abbildung 5: Darstellung von Mode Collapse. Target ist die Verteilung der echten Daten, links ist nach unterschiedlich vielen Trainingsdurchläufen zu erkennen, dass der Generator zwischen cerschiedenen Klassen wechselt, es jedoch nicht schafft die gesamte Verteilung zu reproduzieren. [^2]*
 
 Auch hier kann die Wassersteinverlustfunktion helfen [^2].
 Daneben gibt es das sogenannte Unrolling [^3].
@@ -76,10 +83,14 @@ Das Training des Generators sieht im Detail so aus:
 	8. Anpassung der Generatorgewichte mittels Gradientenabstieg.
 
 ![Abbildung 6](https://github.com/JFJ0831/VIDLMP/blob/aac187f9b75607901f55e5c9ee4f13fbd43b2daf/11.png)
-*Abbildung 6: Schematische Darstellung eines dreistufigen unrolled GAN [^3].*
+*Abbildung 6: Schematische Darstellung eines dreistufigen unrolled GAN. [^3]*
 
+Außerdem lässt sich Mode Collapse umgehen, indem man nicht nur generierte Daten des aktuellen Generators an den Diskriminator übergibt, sondern auch Daten die einem vorherigen Generator entstammen.
+Der Diskriminator passt sich so nicht übermäßig an den aktuellen Generator an, sondern auch an vorherige. Aktuellere Generatoren sind dabei meist relevanter als ältere. [^4]
 
-### Divergenz/Oszillazion
+Ein letztes hier vorgestelltes Mittel zu Verhinderung von Mode Collapse ist die mini-batch discrimination. Hierbei wird errechnet, wie ähnlich die Instanzen innerhalb eines Batch sind.
+Da beim Mode Collapse wenig diverse Daten erzeugt werden, kann der Diskriminator durch diese zusätzliche Information ein solches Batch komplett ablehnen. [^5]
+
 
 
 ## Mathematischer Ablauf
@@ -132,3 +143,5 @@ Auch wird als Label trotz unechter Daten $y=1$ übermittelt.
 [^1]: https://arxiv.org/pdf/1406.2661.pdf "Generative Adversarial Nets"
 [^2]: https://arxiv.org/pdf/1701.07875.pdf "Wasserstein GAN"
 [^3]: https://arxiv.org/pdf/1611.02163.pdf "Unrolled Generative Adversarial Networks"
+[^4]:
+[^5]: https://arxiv.org/pdf/1606.03498.pdf "Improved Techniques for Training GANs"

@@ -1,2 +1,2 @@
 # VIDLMP
-$a \ne 0$
+WIP

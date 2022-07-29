@@ -179,7 +179,7 @@ Das heißt wir brauchen eine andere Option genau das zu bewerkstelligen, noch pr
 
 Kommen wir nun zur Architektur.
 
-![StyleGAN Architekturüberblick](https://radosgw.public.os.wwu.de/pad/uploads/bcc8ed66-f642-4aff-b099-aede43958510.jpg)
+![StyleGAN Architekturüberblick](https://github.com/JFJ0831/VIDLMP/blob/37189f8429e432224a7ee94687ff009a734be4a3/12.jpg)
 *Abbildung 7: Überblick über die StyleGAN Architektur [^12]*
 
 ### Mapping Network
@@ -235,13 +235,6 @@ Auf den tieferen Ebenen (4x4, 8x8) verändern sich grundlegende Merkmale wie z.B
 Darüber hinaus verwendet der StyleGAN Style Mixing. Es werden mehrere latent codes gemapt, woraus dann mehr Style Vektoren entstehen. Diese werden dann auf zufälligen Ebenen [^12][^11] verwendet, damit der Generator nicht denkt, dass die Styles bei benachbarten Ebenen eine Korrelation haben. Das hat verschiedene Vorteile:
 * Zum einen fördert es Lokalisierung im Generator, heißt dass jeder Style Vektor noch weniger Merkmale gleichzeitig manipuliert [^12][^11]
 * Zum anderen schneidet mit Style Mixing der StyleGAN besser ab in einem GAN Bewertungstest, als ohne Style Mixing [^12]
-
-
-----
-
-References
-
-
 
 
 

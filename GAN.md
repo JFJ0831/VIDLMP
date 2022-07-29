@@ -24,7 +24,7 @@ Den Input bearbeitet der Generator nun bestenfalls so, dass echt aussehende Bild
 Dies liegt dran, dass die Gewichte des neuronalen Netzwerkes zufällig initialisiert wurden und auch noch nicht ausreichend in eine Richtung angepasst werden konnten, die es ermöglicht echt aussehende Daten zu generieren.
 Bevor die Gewichte des Generators überhaupt angepasst werden, wird zunächst der Discriminator trainiert.
 Dieser wird dazu sowohl mit gerade neu generierten Daten, aber auch mit echten Daten gefüttert. Die Daten kommen dabei jeweils in gleicher Anzahl vor.
-Der Discriminator versucht nun die Daten richtig zuzuordnen. Wie erfolgreich diese geschieht, lässt sich mithilfe einer Verlustfunktion errechnen.
+Der Discriminator versucht nun die Daten richtig zuzuordnen. Wie erfolgreich diese geschieht, lässt sich mithilfe der MinMax-Verlustfunktion errechnen.
 Nun gilt es festzustellen, welche Kantengewichte wie angepasst werden müssen, um den Verlust zu reduzieren.
 Dazu werden unter Zuhilfenahme von Backpropagation entsprechende Gradienten berechnet und dann die Gewichte der Kanten in die entgegengesetzte Richtung der Gradienten angepasst (-> stochastischer Gradientenabstieg). 
 Zu Beachten ist, dass während des Trainings des Discriminators die Gewichte des Generators nicht verändert werden. Dieser Teil des GANs wird in diesem Schritt sogar komplett ausgeklammert.
@@ -97,12 +97,15 @@ Da beim Mode Collapse wenig diverse Daten erzeugt werden, kann der Diskriminator
 
 
 ## Mathematischer Ablauf
-Der Generator $G$ soll eine Wahrscheinlichkeitsdichtefunktion $p_g$ erstellen, sodass $G(z)$ mit der gleichen Wahrscheinlichkeit in einem Intervall $[a, b]$ liegt, wie die Zufallsvariable $x$ in einem Intervall $[a, b]$ der Wahrscheinlichkeitsdichtefunktion $p_{data}$.
-Der Diskriminator $D$ entscheidet, ob $p_g=p_{data}$, oder nicht. In ersterem Fall ist es dem Generator $G$ gelungen den Diskriminator $D$ zu täuschen.
-Der Generator $G$ erhält, wie als Eingabe Werte $z$ aus einer beliebigen Verteilung. Oft handelt es sich dabei, wie bereits geschrieben, um Gaußsches Rauschen, also die Normalverteilung.
+Der Generator $G$ soll $G(z)$ so ausgeben, dass diese mit der gleichen Wahrscheinlichkeit in einem Intervall $[a, b]$ der dadurch entstehenden Wahrscheinlichkeitsdichtefunktion $p_g$ liegen, 
+wie echte Daten $x$ aus einem Intervall $[a, b]$ der Wahrscheinlichkeitsdichtefunktion $p_{data}$ kommen.
+Der Diskriminator $D$ entscheidet, ob $p_g(x)=p_{data}(x)$, oder nicht. In ersterem Fall ist es dem Generator $G$ gelungen den Diskriminator $D$ zu täuschen.
+Der Generator $G$ erhält, als Eingabe Werte $z$ aus einer beliebigen Verteilung $p_z$. Oft handelt es sich dabei, wie bereits erwähnt, um Gaußsches Rauschen, also die Normalverteilung.
+Aus dieser Eingabe $z$ wird eine Ausgabe $G(z)$ aus der dem Generator zugrunde liegenden Wahrscheinlichkeitsdichte $p_g$ generiert. $p_g$ hat die selbe Definitionsmenge wie $p_{data}$.
+Beim Training des Diskriminators werden die echten Daten $x$ mit dem Label $y=1$ und die unechten Daten $G(z)$ mit dem Label $y=0$ an $D$ übergeben.
+Es handelt sich bei $D$ um ein Klassifikationsnetzwerk. Das neuronale Netzwerk wird in diesem Fall auf die MinMax-Verlustfunktion optimiert:
 
-
-Die echten Daten werden mit dem Label $y=1$ und die unechten Daten mit dem Label $y=0$ übergeben.
+$$ \min_G \max_D⁡ V(D,G) = \mathbb{E}\_{x \sim p_{data}(x)} [ \log ⁡D(x)] + \mathbb{E}_{z \sim p_z (z)} [ \log⁡ (1-D(G(z))) ] $$
 
 Auch wird als Label trotz unechter Daten $y=1$ übermittelt.
 

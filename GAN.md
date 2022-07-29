@@ -55,19 +55,16 @@ Der Generator produziert als beispielsweise nur Bilder von Ananas, obwohl in der
 Dieses Problem entsteht, wenn es dem Generator deutlich leichter fällt mit einer Klasse von Daten den Diskriminator zu täuschen.
 Das Generatortraining führt dann dazu, dass immer mehr solcher Daten erzeugt werden bis letztendlich nur noch Ananasbilder an den Diskriminator übergeben werden.
 Nach einer Weile kann es für den Diskriminator günstig sein die Ananasbilder alle abzulehnen. In der Folge ist der Generator gezwungen auf eine neue Frucht zu wechseln.
-So werden, wie in <a href="#Abb_5">Abbildung 5</a> zu sehen, nach und nach alle Klassen durchlaufen, ohne das es zu einem universell guten geschweige einem optimalen Ergebnis kommt.
-<p align="center">
-	<figure>
-		<img src="https://github.com/JFJ0831/VIDLMP/blob/5671b345d9edc07654fd0d05b630ede431fff642/10_1.png" title="Abbildung 5" id="Abb_5"/>
-		<figcaption>Abbildung 5: Darstellung von Mode Collapse. Target ist die Verteilung der echten Daten, links ist nach unterschiedlich vielen Trainingsdurchläufen zu erkennen, dass der Generator zwischen cerschiedenen Klassen wechselt, es jedoch nicht schafft die gesamte Verteilung zu reproduzieren.</figcaption>
-	</figure>
-</p>
+So werden, wie in Abbildung 5 zu sehen, nach und nach alle Klassen durchlaufen, ohne das es zu einem universell guten geschweige einem optimalen Ergebnis kommt.
+
+![Abbildung 5](https://github.com/JFJ0831/VIDLMP/blob/5671b345d9edc07654fd0d05b630ede431fff642/10_1.png)
+*Abbildung 5: Darstellung von Mode Collapse. Target ist die Verteilung der echten Daten, links ist nach unterschiedlich vielen Trainingsdurchläufen zu erkennen, dass der Generator zwischen cerschiedenen Klassen wechselt, es jedoch nicht schafft die gesamte Verteilung zu reproduzieren [^2].*
 
 Auch hier kann die Wassersteinverlustfunktion helfen [^2].
 Daneben gibt es das sogenannte Unrolling [^3].
 Im Gegensatz zum Training des Generators bei einem normalen GAN, werden bei Unrolled GANs nacheinander mehrere neue Gewichte für den Diskriminator berechnet, bevor basierend auf dem letzten Verlust Backpropagation zur Anpassung der Generatorgewichte stattfindet.
 Die neuen Generatorgewichte berücksichtigen so zukünftige, noch nicht durchgeführte Anpassungen des Diskriminators. Das Training des Diskriminators bleibt unverändert.
-Das Training des Generators sieht demnach im Detail so aus:
+Das Training des Generators sieht im Detail so aus:
 
 	1. Aus zufälligem Rauschen und mit den aktuellen Generatorgewichten neue Daten generieren.
 	2. Diskriminator versucht die generierten Daten als solche zu erkennen.
@@ -78,12 +75,9 @@ Das Training des Generators sieht demnach im Detail so aus:
 	7. Backpropagation des Gradienten über alle Wiederholungen.
 	8. Anpassung der Generatorgewichte mittels Gradientenabstieg.
 
-<p align="center">
-	<figure>
-		<img src="" title="Abbildung 6" id="Abb_6"/>
-		<figcaption>Abbildung 6: Schematische Darstellung eines dreistufigen unrolled GAN [^3].</figcaption>
-	</figure>
-</p>
+![Abbildung 6](https://github.com/JFJ0831/VIDLMP/blob/aac187f9b75607901f55e5c9ee4f13fbd43b2daf/11.png)
+*Abbildung 6: Schematische Darstellung eines dreistufigen unrolled GAN [^3].*
+
 
 ### Divergenz/Oszillazion
 
@@ -135,7 +129,6 @@ Auch wird als Label trotz unechter Daten $y=1$ übermittelt.
 </table>
 
 ## Quellen und Referenzen
-
 [^1]: https://arxiv.org/pdf/1406.2661.pdf "Generative Adversarial Nets"
 [^2]: https://arxiv.org/pdf/1701.07875.pdf "Wasserstein GAN"
 [^3]: https://arxiv.org/pdf/1611.02163.pdf "Unrolled Generative Adversarial Networks"

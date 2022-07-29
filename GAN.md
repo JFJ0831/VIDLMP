@@ -19,28 +19,28 @@ Im Fall von GANs handelt es sich dabei um ein sogenanntes <a href="https://en.wi
 Welche Herausforderungen damit verbunden sind, wird später [hier](##herausforderungen-beim-gan-training-und-anpassungsmöglichkeiten) erklärt. Zuerst geht es jetzt um die zwei Phasen eines Trainingsdurchlaufs.
 
 ### Erste Phase
-Der erste Teil des GANs, der Generator, wird mit einem zufälligen Input gefüttert. In vielen Fällen handelt es sich dabei um gaußsches Rauschen, aber auch andere Verteilungen sind möglich.
+Der vordere Teil des GANs, der Generator, wird mit einem zufälligen Input gefüttert. In vielen Fällen handelt es sich dabei um gaußsches Rauschen, aber auch andere Verteilungen sind möglich.
 Den Input bearbeitet der Generator nun bestenfalls so, dass echt aussehende Bilder von Früchten entstehen. In den ersten Durchläufen wird dies nicht gelingen, der Output wird mehr oder weniger zufällig sein.
 Dies liegt dran, dass die Gewichte des neuronalen Netzwerkes zufällig initialisiert wurden und auch noch nicht ausreichend in eine Richtung angepasst werden konnten, die es ermöglicht echt aussehende Daten zu generieren.
 Bevor die Gewichte des Generators überhaupt angepasst werden, wird zunächst der Discriminator trainiert.
-Dieser wird dazu sowohl mit gerade neu generierten Daten, aber auch mit echten Daten gefüttert. Die Daten kommen dabei jeweils in gleicher Anzahl vor.
+Dieser wird dazu zeitgleich sowohl mit gerade neu generierten Daten, aber auch mit echten Daten gefüttert. Die Daten kommen dabei jeweils in identischer Anzahl vor.
 Der Discriminator versucht nun die Daten richtig zuzuordnen. Wie erfolgreich diese geschieht, lässt sich mithilfe der MinMax-Verlustfunktion errechnen.
 Nun gilt es festzustellen, welche Kantengewichte wie angepasst werden müssen, um den Verlust zu reduzieren.
 Dazu werden unter Zuhilfenahme von Backpropagation entsprechende Gradienten berechnet und dann die Gewichte der Kanten in die entgegengesetzte Richtung der Gradienten angepasst (-> stochastischer Gradientenabstieg). 
-Zu Beachten ist, dass während des Trainings des Discriminators die Gewichte des Generators nicht verändert werden. Dieser Teil des GANs wird in diesem Schritt sogar komplett ausgeklammert.
+Zu Beachten ist, dass während des Trainings des Discriminators die Gewichte des Generators nicht verändert werden. Dieser Teil des GANs wird in dieser Phase sogar komplett ausgeklammert.
 
 ### Zweite Phase
 Sind die Gewichte des Discriminators aktualisiert worden, so widmet sich der nächste Schritt dem Training des Generators.
 Auch hier wird der Generator zuerst mit Zufallseingaben beschickt, welche dann zu möglichst realistischen Daten modifiziert werden.
-Die Unterscheidung zum ersten Schritt liegt unter anderem darin, dass der Discriminator jetzt nicht sowohl mit echten als auch unechten Daten gefüttert wird, sondern nur mit unechten.
+Die Unterscheidung zur ersten Phase liegt unter anderem darin, dass der Discriminator jetzt nicht sowohl mit echten als auch unechten Daten gefüttert wird, sondern nur mit unechten.
 Der Discriminator versucht nun möglichst alle Daten als unecht zu erkennen. Auch hier wird ein Verlust berechnet, wobei die Funktion eine andere sein kann als beim Training des Discriminators. 
 Der Generator wird bestraft, wenn der Discriminator ein generiertes Bild als solches erkennt.
 Um die Gewichte des Generators anzupassen, muss die Backpropagation des Verlustes folglich über das gesamte GAN erfolgen.
 Negative Auswirkungen auf die Leistung des Discriminators lassen sich unterbinden, indem dessen Gewichte zuvor festgesetzt werden und für diesen Schritt unveränderlich sind.
 Nach Aktualisierung der Generatorgewichte kann ein neuer Durchlauf begonnen werden.
 
-Falls erwünscht, ist es mithilfe von Hyperparametern möglich den ersten und/oder den zweiten Schritt mehrfach hintereinander auszuführen.
-Wenn pro Trainingsdurchlauf beispielsweise der erste Schritt häufiger durchlaufen wird als der zweite, so erhält man einen Diskriminator, der deutlich besser echte Daten von unechten Daten des aktuellen Generators unterscheiden kann.
+Falls erwünscht, ist es mithilfe von Hyperparametern möglich die erste und/oder die zweite Phase mehrfach hintereinander auszuführen.
+Wenn pro Trainingsdurchlauf beispielsweise die erste Phase häufiger durchlaufen wird als die zweite, so erhält man einen Diskriminator, der deutlich besser echte Daten von unechten Daten des aktuellen Generators unterscheiden kann.
 
 ## Herausforderungen beim GAN-Training und Anpassungsmöglichkeiten
 
@@ -89,7 +89,7 @@ Das Training des Generators sieht im Detail so aus:
 *Abbildung 7: Heatmap der von einem zehnstufigen unrolled GAN generierten Verteilungen. [^3]*
 
 Außerdem lässt sich Mode Collapse umgehen, indem man nicht nur generierte Daten des aktuellen Generators an den Diskriminator übergibt, sondern auch Daten die einem vorherigen Generator entstammen.
-Der Diskriminator passt sich so nicht übermäßig an den aktuellen Generator an, sondern auch an vorherige. Aktuellere Generatoren sind dabei meist relevanter als ältere. [^4]
+Der Diskriminator passt sich so nicht übermäßig an den aktuellen Generator an, sondern auch an vorherige. Ausgaben aktuellerer Generatoren sind dabei meist relevanter als älterer. [^4]
 
 Ein letztes hier vorgestelltes Mittel zu Verhinderung von Mode Collapse ist die mini-batch discrimination. Hierbei wird errechnet, wie ähnlich die Instanzen innerhalb eines Batch sind.
 Da beim Mode Collapse wenig diverse Daten erzeugt werden, kann der Diskriminator durch diese zusätzliche Information ein solches Batch komplett ablehnen. [^5]
@@ -103,11 +103,35 @@ Der Diskriminator $D$ entscheidet, ob $p_g(x)=p_{data}(x)$, oder nicht. In erste
 Der Generator $G$ erhält, als Eingabe Werte $z$ aus einer beliebigen Verteilung $p_z$. Oft handelt es sich dabei, wie bereits erwähnt, um Gaußsches Rauschen, also die Normalverteilung.
 Aus dieser Eingabe $z$ wird eine Ausgabe $G(z)$ aus der dem Generator zugrunde liegenden Wahrscheinlichkeitsdichte $p_g$ generiert. $p_g$ hat die selbe Definitionsmenge wie $p_{data}$.
 Beim Training des Diskriminators werden die echten Daten $x$ mit dem Label $y=1$ und die unechten Daten $G(z)$ mit dem Label $y=0$ an $D$ übergeben.
-Es handelt sich bei $D$ um ein Klassifikationsnetzwerk. Das neuronale Netzwerk wird in diesem Fall auf die MinMax-Verlustfunktion optimiert:
+Es handelt sich bei $D$ um ein binäres Klassifikationsnetzwerk. Das neuronale Netzwerk wird in diesem Fall auf die MinMax-Verlustfunktion optimiert:
 
 $$ \min_G \max_D⁡ V(D,G) = \mathbb{E}\_{x \sim p_{data}(x)} [ \log ⁡D(x)] + \mathbb{E}_{z \sim p_z (z)} [ \log⁡ (1-D(G(z))) ] $$
 
-Auch wird als Label trotz unechter Daten $y=1$ übermittelt.
+Diese Funktion ähnelt stark der binären Kreuzentropie mit $n=1$ Instanzen:
+
+$$ \mathbb{L} = - \sum_{i=1}^n y_i \log (\hat{y_i}) + (1-y_i) \log (1-\hat{y_i}) $$
+
+Bei $y=0$ gilt $\mathbb{L} = \log (1-D(G(z)))$ mit $\hat{y} = D(G(z))$.
+
+Bei $y=1$ gilt $\mathbb{L} = \log (D(x))$ mit $\hat{y} = D(x)$.
+
+Daraus ergibt sich $\mathbb{L} = \log (D(x)) + \log (1-D(G(z)))$.
+
+Diese Funktion berechnet der Verlust einer Instanz. Um zu erfahren wie der Verlust über den gesamten Datensatz ist, muss der Erwartungswert berechnet werden:
+
+$$ \mathbb{E}(\mathbb{L}) = \int p_{data}(x) \log ⁡D(x)dx + \int p_z (z) \log⁡ (1-D(G(z))dz = V(D,G) $$
+
+$D$ ist dazu angehalten die obere Funktion $V(D,G)$ zu maximieren. 
+Dies ist der Fall, wenn $D$ echte Daten $x$ als solche erkennt, also $D(x)$ möglichst gegen $1$ geht. $\log D(x)$ nähert sich dann von unten gegen $0$.
+Außerdem sollten generierte Daten $G(z)$ als solche erkannt werden. $D$ muss diesen Daten dementsprechend eine geringe Wahrscheinlichkeit zusprechen zur Klasse der echten Daten zu gehören.
+$D(G(z))$ sollte also gegen $0$ gehen, womit $\log⁡ (1-D(G(z)))$ sich dann ebenfalls von unten der $0$ nähert.
+Ein Diskriminator $D$ der einen Wert von $0$ erreicht wäre somit optimal, während ein schlechter Diskriminator hohe negative Werte erzielen würde.
+Die Gewichte $\theta_d$ werden nun entsprechend angepasst. Dazu wird der Gradient $\nabla_{\theta_d}$ berechnet und Backpropagation angewandt.
+
+Der Generator $G$ versucht den Verlust $V(D,G)$ zu maximieren.
+Dazu muss er möglichst $G(z)$ generieren, die $D$ nicht als solche erkennt. $D(G(z))$ muss also möglichst gegen $1$ gehen.
+Beim Training des Generators werden nur unechte Daten übergeben.
+Jedoch geschiet dies mit dem Label $y=1$, denn dadurch 
 
 
 

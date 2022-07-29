@@ -39,16 +39,16 @@ Um die Gewichte des Generators anzupassen, muss die Backpropagation des Verluste
 Negative Auswirkungen auf die Leistung des Discriminators lassen sich unterbinden, indem dessen Gewichte zuvor festgesetzt werden und für diesen Schritt unveränderlich sind.
 Nach Aktualisierung der Generatorgewichte kann ein neuer Durchlauf begonnen werden.
 
-## Herausforderungen beim GAN-Training und Anpassungsmöglichkeiten
-
 Falls erwünscht, ist es mithilfe von Hyperparametern möglich den ersten und/oder den zweiten Schritt mehrfach hintereinander auszuführen.
 Wenn pro Trainingsdurchlauf beispielsweise der erste Schritt häufiger durchlaufen wird als der zweite, so erhält man einen Diskriminator, der deutlich besser echte Daten von unechten Daten des aktuellen Generators unterscheiden kann.
+
+## Herausforderungen beim GAN-Training und Anpassungsmöglichkeiten
 
 ### Vanishing Gradients
 Ein (annähernd) perfekter Diskriminator kann das Vanishing-Gradient-Problem hervorrufen. Bei einem Verlust nahe null passiert es schnell, dass die Gradienten im Bereich des Generators so klein werden, dass sich der Generator quasi nicht verbessern kann.
 Tritt dieses Problem zu Beginn des Trainings auf, so bleibt es bei einem vollkommen unbrauchbaren Generator.
 Das Auftreten des Problems lässt sich pauschal nicht vorhersagen, jedoch neigt beispielsweise die MinMax-Verlustfunktion dazu. 
-Die Wahl einer anderen Verlustfunktion, wie dem Wassersteinverlust, wirken dem Phänomen entgegen [^2]. 
+Die Wahl einer anderen Verlustfunktion, wie dem <a href="https://en.wikipedia.org/wiki/Wasserstein_metric">Wassersteinverlust</a>, wirken dem Phänomen entgegen [^2]. 
 
 ### Instabilität/Oszillazion
 Das Training von GANs gestaltet sich schwierig, da die beiden Teilnetze gegeneinander arbeiten. Die Eingaben können unzählige Dimensionen haben und die Kostenfunktion ist meist nicht konvex. [^5]
@@ -65,7 +65,7 @@ Nach einer Weile kann es für den Diskriminator günstig sein die Ananasbilder a
 So werden, wie in Abbildung 5 zu sehen, nach und nach alle Klassen durchlaufen, ohne das es zu einem universell guten geschweige einem optimalen Ergebnis kommt.
 
 ![Abbildung 5](https://github.com/JFJ0831/VIDLMP/blob/5671b345d9edc07654fd0d05b630ede431fff642/10_1.png)
-*Abbildung 5: Darstellung von Mode Collapse. Target ist die Verteilung der echten Daten, links ist nach unterschiedlich vielen Trainingsdurchläufen zu erkennen, dass der Generator zwischen cerschiedenen Klassen wechselt, es jedoch nicht schafft die gesamte Verteilung zu reproduzieren. [^2]*
+*Abbildung 5: Darstellung von Mode Collapse. Target ist die Verteilung der echten Daten, links ist nach unterschiedlich vielen Trainingsdurchläufen zu erkennen, dass der Generator zwischen cerschiedenen Klassen wechselt, es jedoch nicht schafft die gesamte Verteilung zu reproduzieren. [^3]*
 
 Auch hier kann die Wassersteinverlustfunktion helfen [^2].
 Daneben gibt es das sogenannte Unrolling [^3].
@@ -84,6 +84,9 @@ Das Training des Generators sieht im Detail so aus:
 
 ![Abbildung 6](https://github.com/JFJ0831/VIDLMP/blob/aac187f9b75607901f55e5c9ee4f13fbd43b2daf/11.png)
 *Abbildung 6: Schematische Darstellung eines dreistufigen unrolled GAN. [^3]*
+
+![Abbildung 7](https://github.com/JFJ0831/VIDLMP/blob/e0cbfa4867d85a942a6a61519517a7567a251119/10_2.png)
+*Abbildung 7: Heatmap der von einem zehnstufigen unrolled GAN generierten Verteilungen. [^3]*
 
 Außerdem lässt sich Mode Collapse umgehen, indem man nicht nur generierte Daten des aktuellen Generators an den Diskriminator übergibt, sondern auch Daten die einem vorherigen Generator entstammen.
 Der Diskriminator passt sich so nicht übermäßig an den aktuellen Generator an, sondern auch an vorherige. Aktuellere Generatoren sind dabei meist relevanter als ältere. [^4]

@@ -1,4 +1,5 @@
 # Generative Adversarial Networks
+*von Julius Joha und Alexander Stahurski im Rahmen des Vertiefungsmoduls "Deep Learning mit Python"*
 
 ## Was sind Generative Adversarial Networks?
 Generative Adversarial Networks, kurz GAN, gehören zu den generativen Modellen. Diese Modelle sind in der Lage neue Daten, also beispielsweise Bilder von fiktiven Gesichtern, zu erstellen.
@@ -131,28 +132,9 @@ Die Gewichte $\theta_d$ werden nun entsprechend angepasst. Dazu wird der Gradien
 Der Generator $G$ versucht den Verlust $V(D,G)$ zu maximieren.
 Dazu muss er möglichst $G(z)$ generieren, die $D$ nicht als solche erkennt. $D(G(z))$ muss also möglichst gegen $1$ gehen.
 Beim Training des Generators werden nur unechte Daten übergeben.
-Jedoch geschiet dies mit dem Label $y=1$, denn dadurch 
+Jedoch geschiet dies mit dem Label $y=1$, denn dadurch **TEXT EINFÜGEN**
 
 
-
-<div align="center" caption-side="bottom">
-	<figure>
-		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png" title="Abbildung 1" width="14%" id="Abb_1"/>
-		<figcaption>Abbildung 1</figcaption>
-	</figure>
-	<figure>
-		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_2.png" title="Abbildung 2" width="14%" id="Abb_2"/>
-		<figcaption>Abbildung 2</figcaption>
-	</figure>
-	<figure>
-		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 3" width="14%" id="Abb_3"/>
-		<figcaption>Abbildung 3</figcaption>
-	</figure>
-	<figure>	
-		<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_4.png" title="Abbildung 4" width="14%" id="Abb_4"/>
-		<figcaption>Abbildung 4</figcaption>
-	<figure>
-</div>
 
 <table>
 	<tr>

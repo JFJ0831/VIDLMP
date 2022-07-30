@@ -161,7 +161,7 @@ Die blau gestrichelte Linie stellt dar, mit welcher Wahrscheinlichkeit ein $x$ a
 
 ## StyleGAN
 
-Das GAN ist in soweit beschränkt, dass wir über die Merkmale, sagen wir hier innerhalb eines generierten Bildes, keinen direkten Einfluss haben. Es ist uns nur möglich über die Trainingsdaten die generierten Bilder in eine gewisse Richtung zu lenken. Aber vor allem je kleiner das gewünschte Merkmal ist, dass man beim generieren verändern oder hinzufügen möchte, desto schwieriger wird es auch darauf über die Trainingsdaten Einfluss zu nehmen.
+Das GAN ist in soweit beschränkt, dass wir auf die Merkmale, sagen wir hier innerhalb eines generierten Bildes, keinen direkten Einfluss haben. Es ist uns nur möglich über die Trainingsdaten die generierten Bilder in eine gewisse Richtung zu lenken. Aber vor allem je kleiner das gewünschte Merkmal ist, dass man beim Generieren verändern oder hinzufügen möchte, desto schwieriger wird es auch darauf über die Trainingsdaten Einfluss zu nehmen.
 Darüberhinaus ist es auch eher eine unzuverlässige Methode, da wir nicht sicherstellen können, dass die Merkmale über die Trainingsdaten auch tatsächlich wie gewünscht so generiert werden. 
 Es ist eher unflexibel, Trainingsdauer ist dementsprechend theoretisch unendlich, also es ist auch nicht sicher, ob das gewünschte Ergebnis überhaupt erreicht wird.
 Das heißt wir brauchen eine andere Option genau das zu bewerkstelligen, noch präziser und (hoffentlich) schneller.
@@ -175,11 +175,11 @@ Kommen wir nun zur Architektur.
 ### Mapping Network
 Bevor das eigentliche Bild generiert wird, erstellen wir vorher einen Vektor, der es uns ermöglicht Stellen innerhalb des Bildes, nehmen wir hier Gesichter als Anhaltspunkt, präziser zu manipulieren.
 
-Zunächst wird der latent code z, also beispielsweise Merkmale innerhalb eines Gesichtes, gemapt durch ein acht-layer MLP, woraus ein Vektor w entsteht. Dieser Vektor wird an verschiedenen Stellen innerhalb des Generators eingefügt, aber diese sind nicht an jeder Stelle gleich. Der Vektor w wird durch verschiedene Stellen (repräsentiert durch die Boxen A) durch beispielsweise Dense Layer ohne Aktivierungsfunktion geschickt, woraus dann mehrere Vektoren entstehen, auch Style Vektoren gennant [^11].
-Diese sind dann in der Lage, zusammen mit der Adaptive Instance Normalization (AdaIN), verschiedene Merkmale innerhalb eines Bildes präzise zu ändern, auf verschiedensten Ebenen. Z.B. schafft es die Möglichkeit, die Gesichtsform an sich zu ändern, als auch kleinere Falten im Gesicht einzufügen, aber dabei andere Elemente im Gesicht in der Form zu erhalten (z.B. Haarfarbe, Augenfarbe, Größe der Nase etc.) [^11].
+Zunächst wird der latent code z, also beispielsweise Merkmale innerhalb eines Gesichtes, gemappt durch ein acht-layer MLP, woraus ein Vektor $w$ entsteht. Dieser Vektor wird an verschiedenen Stellen innerhalb des Generators eingefügt, aber diese sind nicht an jeder Stelle gleich. Der Vektor w wird durch verschiedene Stellen (repräsentiert durch die Boxen A) durch beispielsweise Dense Layer ohne Aktivierungsfunktion geschickt, woraus dann mehrere Vektoren entstehen, auch Style Vektoren gennant [^11].
+Diese sind dann in der Lage, zusammen mit der Adaptive Instance Normalization (AdaIN), unterschiedliche Merkmale innerhalb eines Bildes präzise, auf verschiedensten Ebenen zu ändern. Zum Beispiel schafft es sowohl die Möglichkeit, die Gesichtsform an sich zu ändern, als auch kleinere Falten im Gesicht einzufügen, aber dabei andere Elemente im Gesicht in der Form zu erhalten (bspw. Haarfarbe, Augenfarbe, Größe der Nase, etc.) [^11].
 
 ### Rauschen
-Das Rauschen im StyleGAN hat eine etwas andere Rolle als bei einem herkömmlichen GAN. Das Rauschen erfüllt hier verschiedene Zwecke:
+Das Rauschen im StyleGAN hat eine etwas andere Rolle als bei einem herkömmlichen GAN. Das Rauschen hat hier folgende Eigenschaften und Funktionen:
 * Kein vom Generator oder vom latent code künstlich erzeugter Zufall (z.B. Krümmung vom Haar)
     * Heißt wir brauchen keine Methode diesen erzeugten Zufall zu speichern, was sonst einen nicht unerheblichen Teil der Leistung des Generators beanspruchen würde
 * Einfügen an verschiedenen Stellen innerhalb des Generators, auch in höheren Ebenen
@@ -187,15 +187,15 @@ Das Rauschen im StyleGAN hat eine etwas andere Rolle als bei einem herkömmliche
 * Das Rauschen ist nicht an jeder eingefügten Stelle gleich
     * Ohne unterschiedliches Rauschen enstehen möglicherweise visuelle Artefakte, da das gleiche Rauschen über die verschiedenen Ebenen verwendet wird.
     
-Das Rauschen wird als Input und Output jedes Convolutional Layers eingefügt, aber vor der Aktivierungsfunktion und wird gefolgt von einer Adaptive Instance Normalization.
+Das Rauschen wird als Input und Output jedes Convolutional Layers eingefügt, aber vor der Aktivierungsfunktion und es wird gefolgt von einer Adaptive Instance Normalization.
 
-Bei dem Generator nehmen wir am Anfang also keinen vom gausschen' Rauschen generiertes Bild, sondern nehmen eine gelernte Konstante. Diese Konstante ist erst wirklich "konstant" nach dem Training und wird vorher durch Backpropagation [^11] kontinuierlich angepasst. Das heißt, falls man einen eigenen StyleGAN trainieren sollte, erhält man also möglicherweise eine andere als hier angegebene Konstante.
-Das Rauschen besteht aus einer Feature Map, welche auf die Feature Maps in der jeweiligen Ebene übertragen wird (siehe Architektur). Vor der Übertragung werden diese Feature Maps skaliert über gelernte per-feature Skalierungsfaktoren [^12][^11] (dargestellt als Box B).
+Bei dem Generator nehmen wir am Anfang also kein vom gaußschen' Rauschen generiertes Bild, sondern nehmen eine gelernte Konstante. Diese Konstante ist erst wirklich "konstant" nach dem Training und wird vorher durch Backpropagation [^11] kontinuierlich angepasst. Das heißt, falls man einen eigenen StyleGAN trainieren möchte, erhält man also möglicherweise eine andere als hier angegebene Konstante.
+Das Rauschen besteht aus einer Feature Map, welche auf die Feature Maps in der jeweiligen Ebene übertragen wird (siehe Architektur). Vor der Übertragung werden diese Feature Maps über gelernte per-feature Skalierungsfaktoren skaliert [^12][^11] (dargestellt als Box B).
 
 ### Adaptive Instance Normalization
 
 Bevor wir näher auf die Struktur vom Generator eingehen, ist es wichtig zu wissen was *Adaptive Instance Normalization* $AdaIN$ ist.
-$AdaIN$ ist eine weitere Version von *Instance Normalization* und diese wiederrum ist eine weitere Version von der *Batch Normalization* $BN$.
+$AdaIN$ ist eine weitere Version von *Instance Normalization* und diese wiederum ist eine weitere Version von der *Batch Normalization* $BN$.
 
 $$ BN(x) = 𝛾\frac{x-𝜇(x)}{𝜎(x)}+𝛽 $$
 
@@ -204,26 +204,26 @@ Daraus folgt dann die **Instance Normalization** $IN$.
 
 $$ IN(x_i) = 𝛾\frac{x_i-𝜇(x_i)}{𝜎(x_i)}+𝛽 $$
 
-Diese Erweiterung der Batch Normalization ermöglicht es, aus einem Batch aus Feature Maps, jede Feature Map einzelnd zu normalisieren, anstelle eines einheitlichen Parameters, den man für einen ganzen Batch nutzen würde. Für den StyleGAN reicht das aber noch nicht ganz aus, um präzise Einfluss auf die Merkmale nehmen zu können.
-Mit **Adaptive Instance Normalization** ist es aber möglich, da mit AdaIn die Skalierungsfaktoren vom Style Vektor ausgehen. Dieser Vektor enthält je einen Skalierungsfaktor und Offset [^11] pro enthaltener Feature Map. Das ermöglicht Einfluss auf Details innerhalb eines Gesichtes, ohne andere Details damit zu beeinflussen.
+Diese Erweiterung der Batch Normalization ermöglicht es, aus einem Batch aus Feature Maps, jede Feature Map einzeln zu normalisieren, anstelle eines einheitlichen Parameters, den man für einen ganzen Batch nutzen würde. Für das StyleGAN reicht das aber noch nicht ganz aus, um präzise Einfluss auf die Merkmale nehmen zu können.
+Mit **Adaptive Instance Normalization** ist es aber möglich, da mit $AdaIn$ die Skalierungsfaktoren vom Style Vektor ausgehen. Dieser Vektor enthält je einen Skalierungsfaktor und Offset [^11] pro enthaltener Feature Map. Das ermöglicht Einfluss auf Details innerhalb eines Gesichtes, ohne andere Details gleichzeitig zu beeinflussen.
 
 $$ AdaIN(x_i,y) = 𝜎(y)\frac{x_i-𝜇(x_i)}{𝜎(x_i)}+𝜇(y) $$
 
-Mit y als korrespondierende skalierte Style-Komponente [^12][^13] von den Style Vektoren. 
+Wobei $y$ die korrespondierende skalierte Style-Komponente [^12][^13] der Style Vektoren ist. 
 
 ### Synthesis Network / Generator
 
-Der Generator ist relativ simpel aufgebaut. Wir starten mit einer niedrigen Größe (4x4) und Upsampeln die Größe zu/vor jeder neuen Ebene (8x8, 16x16 etc.). Wie zuvor genannt, beginnt der Generator nicht mit einem zufälligem Rauschen, sondern einer gelernten Konstante. Das zuvor beschriebene Rauschen wird zum Output eines Convolutional Layers hinzugefügt, damit jedes generierte Bild eine zufällige, aber natürliche Komponente bekommt. Dieser Output wird dann durch Adaptive Instance Normalization normalisiert, verändert durch den Style und als Input für einen weiteren Convolutional Layer verwendet, wo der Ablauf sich dementsprechend wiederholt. 
+Der Generator ist relativ simpel aufgebaut. Wir starten mit einer niedrigen Größe (4x4) und Upsampeln die Größe zu/vor jeder neuen Ebene (8x8, 16x16 etc.). Wie zuvor genannt, beginnt der Generator nicht mit einem zufälligem Rauschen, sondern einer gelernten Konstante. Das zuvor beschriebene Rauschen wird zum Output eines Convolutional Layers hinzugefügt, damit jedes generierte Bild eine zufällige, aber natürliche Komponente bekommt. Dieser Output wird dann durch Adaptive Instance Normalization normalisiert, verändert durch den Style und als Input für ein weiteres Convolutional Layer verwendet. Dort wiederholt sich der Ablauf dann erneut. 
 
 Pro Ebene gibt es also zwei Convolutional Layer, zwei Adaptive Instance Normalization Layer, zwei Rauschvektoren und ein Upsampling Layer zu jeder neuen Ebene.
 
-Auf den tieferen Ebenen (4x4, 8x8) verändern sich grundlegende Merkmale wie z.B. Gesichtsform, Haltung etc. und je höher die Ebene, desto mehr werden eher die detailierteren Aspekte verändert, wie z.B. Haarfarbe oder Hautporen auf den letzten Ebenen [^12].
+Auf den tieferen Ebenen (4x4, 8x8) verändern sich grundlegende Merkmale wie z.B. Gesichtsform, Haltung, etc. Je höher die Ebene, desto stärker werden die detailierteren Aspekte verändert, wie z.B. Haarfarbe oder Hautporen auf den letzten Ebenen [^12].
 
 
 ### Style Mixing
 
 Darüber hinaus verwendet der StyleGAN Style Mixing. Es werden mehrere latent codes gemapt, woraus dann mehr Style Vektoren entstehen. Diese werden dann auf zufälligen Ebenen [^12][^11] verwendet, damit der Generator nicht denkt, dass die Styles bei benachbarten Ebenen eine Korrelation haben. Das hat verschiedene Vorteile:
-* Zum einen fördert es Lokalisierung im Generator, heißt dass jeder Style Vektor noch weniger Merkmale gleichzeitig manipuliert [^12][^11]
+* Zum einen fördert es Lokalisierung im Generator, das heißt dass jeder Style Vektor noch weniger Merkmale gleichzeitig manipuliert [^12][^11]
 * Zum anderen schneidet mit Style Mixing der StyleGAN besser ab in einem GAN Bewertungstest, als ohne Style Mixing [^12]
 
 

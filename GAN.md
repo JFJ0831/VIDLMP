@@ -2,22 +2,21 @@
 *von Julius Joha und Alexander Stahurski im Rahmen des Vertiefungsmoduls "Deep Learning mit Python"*
 
 ## Was sind Generative Adversarial Networks?
-Generative Adversarial Networks, kurz GAN, gehören zu den generativen Modellen. Diese Modelle sind in der Lage neue Daten, also beispielsweise Bilder von fiktiven Gesichtern, zu erstellen.
+Generative Adversarial Networks, kurz GAN, gehören zu den generativen Modellen. Diese Modelle sind in der Lage neue Daten, also beispielsweise Bilder von fiktiven Gesichtern oder Häusern, zu erstellen.
 GANs bestehen aus zwei neuronalen Netzen welche gegeneinander antreten.
 Eins der beiden Netze, Generator genannt, versucht dabei echte Daten so gut zu imitieren, dass das andere Teilnetz, der Discriminator, nicht in der Lage ist, die neu generierten Daten von echten Daten zu unterscheiden.
 
 ## Wozu werden GANs verwendet?
-Im ursprünglichen Forschungspaper von Ian Goodfellow et al. wurde ein GAN erstellt, welches Bilder von Zahlen generieren kann, die so aussehen, wie die aus dem MNIST-Datensatz.
-Mittlerweile wurden GANs in einer Vielzahl von Anwendungsgebieten erfolgreich eingesetzt. Dazu sei jedoch gesagt, dass die verwendeten Modelle deutlich komplexer geworden sind, als das ursprüngliche.
+Im ursprünglichen Forschungspaper von Ian Goodfellow et al. [^1] wurde ein GAN erstellt, welches Bilder von Zahlen generieren kann, die so aussehen, wie die aus dem MNIST-Datensatz.
+Mittlerweile wurden GANs in einer Vielzahl von Anwendungsgebieten erfolgreich eingesetzt. Dazu sei jedoch gesagt, dass die verwendeten Modelle deutlich komplexer geworden sind, als das ursprüngliche und hier vorwiegend behandelte.
 Die prominenteste Verwendung für GANs ist wohl im Bereich der Bildgenerierung und insbesondere der Generierung von Gesichtern nicht existierender Personen angesiedelt.
-In diesem Bereich nehmen die sogenannten StyleGANs eine Vorreiterrolle ein.
+In diesem Bereich nehmen die sogenannten StyleGANs eine Vorreiterrolle ein. Auf die wesentlichen Merkmale dieser GANs gehen wir [hier](user-content-stylegan) ein.
 
 ## Wie funktionieren GANs?
-Im diesem Blog soll ein GAN vorgestellt werden, welches in der Lage ist echt aussehende Bilder von Früchten zu generieren.
-Bevor es um den eigentlichen Code geht, muss der theoretische Aufbau und Ablauf erläutert werden.
+Im diesem Blog sollen GANs vorgestellt werden welche zum Beispiel in der Lage ist echt aussehende Bilder von Früchten zu generieren.
 Wie bei vielen anderen Modellen die sich mit maschinellem Lernen befassen sind oft hunterte oder gar hunterttausende Trainingsdurchläufe notwendig, bis das Modell ein zufriedenstellendes Ergebnis liefert. 
 Im Fall von GANs handelt es sich dabei um ein sogenanntes <a href="https://en.wikipedia.org/wiki/Nash_equilibrium" style="color: black">Nash-Gleichgewicht</a>, also einen Zustand, bei dem es sich weder für den Diskriminator, noch für den Generator lohnt sich zu verändern.
-Welche Herausforderungen damit verbunden sind, wird später [hier](##herausforderungen-beim-gan-training-und-anpassungsmöglichkeiten) erklärt. Zuerst geht es jetzt um die zwei Phasen eines Trainingsdurchlaufs.
+Welche Herausforderungen damit verbunden sind, wird später [hier](user-content-herausforderungen-beim-gan-training-und-anpassungsmöglichkeiten) erklärt. Zuerst geht es jetzt um die zwei Phasen eines Trainingsdurchlaufs.
 
 ### Erste Phase
 Der vordere Teil des GANs, der Generator, wird mit einem zufälligen Input gefüttert. In vielen Fällen handelt es sich dabei um gaußsches Rauschen, aber auch andere Verteilungen sind möglich.
@@ -90,7 +89,7 @@ Das Training des Generators sieht im Detail so aus:
 *Abbildung 7: Heatmap der von einem zehnstufigen unrolled GAN generierten Verteilungen. [^3]*
 
 Außerdem lässt sich Mode Collapse umgehen, indem man nicht nur generierte Daten des aktuellen Generators an den Diskriminator übergibt, sondern auch Daten die einem vorherigen Generator entstammen.
-Der Diskriminator passt sich so nicht übermäßig an den aktuellen Generator an, sondern auch an vorherige. Ausgaben aktuellerer Generatoren sind dabei meist relevanter als älterer. [^4]
+Der Diskriminator passt sich so nicht übermäßig an den aktuellen Generator an, sondern auch an vorherige. Ausgaben aktuellerer Generatoren sind dabei meist relevanter als älterer. [^11]
 
 Ein letztes hier vorgestelltes Mittel zu Verhinderung von Mode Collapse ist die mini-batch discrimination. Hierbei wird errechnet, wie ähnlich die Instanzen innerhalb eines Batch sind.
 Da beim Mode Collapse wenig diverse Daten erzeugt werden, kann der Diskriminator durch diese zusätzliche Information ein solches Batch komplett ablehnen. [^5]
@@ -129,19 +128,21 @@ Dies ist der Fall, wenn $D$ echte Daten $x$ als solche erkennt, also $D(x)$ mög
 Außerdem sollten generierte Daten $G(z)$ als solche erkannt werden. $D$ muss diesen Daten dementsprechend eine geringe Wahrscheinlichkeit zusprechen zur Klasse der echten Daten zu gehören.
 $D(G(z))$ sollte also gegen $0$ gehen, womit $\log⁡ (1-D(G(z)))$ sich dann ebenfalls von unten der $0$ nähert.
 Ein Diskriminator $D$ der einen Wert von $0$ erreicht wäre somit optimal, während ein schlechter Diskriminator hohe negative Werte erzielen würde.
-Die Gewichte $\theta_d$ werden nun entsprechend angepasst. Dazu wird der Gradient $\nabla_{\theta_d}$ berechnet und ein Gradientenabstieg durchgeführt.
+Die Gewichte $\theta_d$ werden nun entsprechend angepasst. Dazu wird der Gradient $\nabla_{\theta_d}$ berechnet. Je nachdem ob $V(D,G)$ oder `binary_crossentropy` verwendet wird, muss ein Gradientenauf- oder abstieg durchgeführt werden.
 
-$$ \nabla_{\theta_d} [\log (D(x)) + \log (1-D(G(z)))] $$
 
 Der Generator $G$ versucht den Verlust $V(D,G)$ zu minimieren.
 Dazu muss er möglichst $G(z)$ generieren, die $D$ nicht als solche erkennt.
 $D(G(z))$ muss also möglichst gegen $1$ gehen, damit $\log (1-D(G(z)))$ möglichst hohe negative Werte annehmen kann.
 Beim Training des Generators werden nur unechte Daten übergeben.
+
 Bei der Nutzung von `binary_crossentropy` für den Generator in Keras geschieht dies jedoch mit dem Label $y=1$ statt wie beim Diskriminator mit dem Label $y=0$.
 Der Grund dafür liegt darin, dass jetzt die vom Generator generierten Daten vom Diskriminator so behandelt werden, wie dieser auch echte behandelt und insbesondere weil für $y=1$, wie zuvor erläutert, der Verlust anders berechnet wird, als für $y=0$.
 Die Funktion lautet dann nämlich $\mathbb{L} = - \log (\hat{y})$. Wobei hier $\hat{y}=D(G(z))$ ist.
 Je größer $D$ die Wahrscheinlichkeit einschätzt, dass die generierten Daten echt sind, desto niedriger der Wert dieser Funktion und desto besser $G$.
 Damit wird sowohl bei der Nutzung von $V(D,G)$ als auch bei der Nutzung der binären Kreuzentropie das selbe Optimum erreicht.
+
+In beiden Fällen werden die Generatorgewichte $\theta_g$ mithilfe des Gradienten $\nabla_{\theta_g}$ und dem Gradientenabstieg angepasst.
 
 Das Nash-Gleichgewicht ist erreicht, wenn die Verteilung der echten Daten identisch ist mit der Verteilung der generierten Daten, also $p_{data}(x)=p_{g}(x)$ [^1].
 Der Diskriminator klassifiziert dann zu 50% richtig. 
@@ -152,20 +153,10 @@ Ganz unten in den Abbildungen ist die Verteilung $p_z$ zu erkennen, aus der $z$ 
 Die grüne Linie gibt die Wahrscheinlichkeitsdichtefunktion $p_g$ der generierten Daten an. Die schwarz gepunktete Linie bildet $p_{data}$ ab.
 Die blau gestrichelte Linie stellt dar, mit welcher Wahrscheinlichkeit ein $x$ als echt erkannt wird.
 
-<table>
-	<tr>
-		<th><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png" title="Abbildung 1" width="100%" id="Abb_1"/></th>
-		<th><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_2.png" title="Abbildung 2" width="100%" id="Abb_1"/></th>
-		<th><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 3" width="100%" id="Abb_1"/></th>
-		<th><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 4" width="100%" id="Abb_1"/></th>
-	</tr>
-	<tr>
-		<th>Abbildung 1: Der Diskriminator ist noch untrainiert. Die Wahrscheinlichkeit einer korrekten Klassifikation springt relativ stark.</th>
-		<th>Abbildung 2: Der Diskriminator wurde trainiert. Links werden Daten eher als echt eingestuft als rechts, wo zu erkennen ist, dass die generierten Daten anders verteilt sind, als die echten Daten.</th>
-		<th>Abbildung 3: Der Generator wurde traniert. Die Verteilung der unechten Daten nähert sich der Verteilung der echten Daten an.</th>
-		<th>Abbildung 4: Nach mehreren Durchläufen konvergiert das Netzwerk. Die Verteilungen sind nicht mehr zu unterscheiden.</th>
-	</tr>
-</table>
+|<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png" title="Abbildung 1" width="180" id="Abb_1"/>|<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_2.png" title="Abbildung 2" width="180" id="Abb_2"/>|<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 3" width="180" id="Abb_3"/>|<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 4" width="180" id="Abb_4"/>|
+|---|---|---|---|
+|*Abbildung 1:<br />Der Diskriminator ist noch untrainiert. Die Wahrscheinlichkeit einer korrekten Klassifikation springt relativ stark.[^1]*|*Abbildung 2:<br />Der Diskriminator wurde trainiert. Links werden Daten eher als echt eingestuft als rechts, wo zu erkennen ist, dass die generierten Daten anders verteilt sind, als die echten Daten.[^1]*|*Abbildung 3:<br />Der Generator wurde traniert. Die Verteilung der unechten Daten nähert sich der Verteilung der echten Daten an.[^1]*|*Abbildung 4:<br />Nach mehreren Durchläufen konvergiert das Netzwerk. Die Verteilungen sind nicht mehr zu unterscheiden.[^1]*|
+
 
 
 ## StyleGAN
@@ -178,6 +169,7 @@ Das heißt wir brauchen eine andere Option genau das zu bewerkstelligen, noch pr
 Kommen wir nun zur Architektur.
 
 ![StyleGAN Architekturüberblick](https://github.com/JFJ0831/VIDLMP/blob/37189f8429e432224a7ee94687ff009a734be4a3/12.jpg)
+
 *Abbildung 7: Überblick über die StyleGAN Architektur [^12]*
 
 ### Mapping Network
@@ -240,8 +232,7 @@ Darüber hinaus verwendet der StyleGAN Style Mixing. Es werden mehrere latent co
 [^1]: https://arxiv.org/pdf/1406.2661.pdf "Generative Adversarial Nets"
 [^2]: https://arxiv.org/pdf/1701.07875.pdf "Wasserstein GAN"
 [^3]: https://arxiv.org/pdf/1611.02163.pdf "Unrolled Generative Adversarial Networks"
-[^4]:
 [^5]: https://arxiv.org/pdf/1606.03498.pdf "Improved Techniques for Training GANs"
 [^11]: Géron, Aurélien. Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow : Concepts, Tools, and Techniques to Build Intelligent Systems, O'Reilly Media, Incorporated, 2019.
-[^12]: Tero Karras et al., “A Style-Based Generator Architecture for Generative Adversarial Networks,” arXiv pre‐print arXiv:1812.04948 (2018). https://openaccess.thecvf.com/content_CVPR_2019/papers/Karras_A_Style-Based_Generator_Architecture_for_Generative_Adversarial_Networks_CVPR_2019_paper.pdf
+[^12]: Tero Karras et al., "A Style-Based Generator Architecture for Generative Adversarial Networks", arXiv pre‐print arXiv:1812.04948 (2018). https://openaccess.thecvf.com/content_CVPR_2019/papers/Karras_A_Style-Based_Generator_Architecture_for_Generative_Adversarial_Networks_CVPR_2019_paper.pdf
 [^13]: Huang, Xun, and Serge Belongie. "Arbitrary style transfer in real-time with adaptive instance normalization." Proceedings of the IEEE international conference on computer vision. 2017.

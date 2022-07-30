@@ -64,7 +64,7 @@ Das Generatortraining führt dann dazu, dass immer mehr solcher Daten erzeugt we
 Nach einer Weile kann es für den Diskriminator günstig sein die Ananasbilder alle abzulehnen. In der Folge ist der Generator gezwungen auf eine neue Frucht zu wechseln.
 So werden, wie in Abbildung 1 zu sehen, nach und nach alle Klassen durchlaufen, ohne dass es zu einem universell guten geschweige einem optimalen Ergebnis kommt.
 
-![Abbildung 1](https://github.com/JFJ0831/VIDLMP/blob/5671b345d9edc07654fd0d05b630ede431fff642/10_1.png)
+![Abbildung 1](/10_1.png)
 *Abbildung 1: Darstellung von Mode Collapse. Target ist die Verteilung der echten Daten; links ist nach unterschiedlich vielen Trainingsdurchläufen zu erkennen, dass der Generator zwischen verschiedenen Klassen wechselt, es jedoch nicht schafft die gesamte Verteilung zu reproduzieren. [^3]*
 
 Auch hier kann die Wassersteinverlustfunktion helfen [^2].
@@ -82,10 +82,10 @@ Das Training des Generators sieht im Detail folgendermaßen aus:
 	7. Backpropagation des Gradienten über alle Wiederholungen.
 	8. Anpassung der Generatorgewichte mittels Gradientenabstieg.
 
-![Abbildung 2](https://github.com/JFJ0831/VIDLMP/blob/aac187f9b75607901f55e5c9ee4f13fbd43b2daf/11.png)
+![Abbildung 2](/11.png)
 *Abbildung 2: Schematische Darstellung eines dreistufigen unrolled GAN. [^3]*
 
-![Abbildung 3](https://github.com/JFJ0831/VIDLMP/blob/e0cbfa4867d85a942a6a61519517a7567a251119/10_2.png)
+![Abbildung 3](/10_2.png)
 *Abbildung 3: Heatmap der von einem zehnstufigen unrolled GAN generierten Verteilungen. [^3]*
 
 Außerdem lässt sich Mode Collapse umgehen, indem man nicht nur generierte Daten des aktuellen Generators an den Diskriminator übergibt, sondern auch Daten, die einem vorherigen Generator entstammen.
@@ -153,7 +153,7 @@ Ganz unten in den Abbildungen ist die Verteilung $p_z$ zu erkennen, aus der $z$ 
 Die grüne Linie gibt die Wahrscheinlichkeitsdichtefunktion $p_g$ der generierten Daten an. Die schwarz gepunktete Linie bildet $p_{data}$ ab.
 Die blau gestrichelte Linie stellt dar, mit welcher Wahrscheinlichkeit ein $x$ als echt erkannt wird.
 
-|<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_1.png" title="Abbildung 4" width="180" id="Abb_4"/>|<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_2.png" title="Abbildung 5" width="180" id="Abb_5"/>|<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 6" width="180" id="Abb_6"/>|<img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 7" width="180" id="Abb_7"/>|
+|<img src="/08_1.png" title="Abbildung 4" width="180" id="Abb_4"/>|<img src="/08_2.png" title="Abbildung 5" width="180" id="Abb_5"/>|<img src="/08_3.png" title="Abbildung 6" width="180" id="Abb_6"/>|<img src="/08_3.png" title="Abbildung 7" width="180" id="Abb_7"/>|
 |---|---|---|---|
 |*Abbildung 4:<br />Der Diskriminator ist noch untrainiert. Die Wahrscheinlichkeit einer korrekten Klassifikation springt relativ stark.[^1]*|*Abbildung 5:<br />Der Diskriminator wurde trainiert. Links werden Daten eher als echt eingestuft als rechts, wo zu erkennen ist, dass die generierten Daten anders verteilt sind, als die echten Daten.[^1]*|*Abbildung 6:<br />Der Generator wurde traniert. Die Verteilung der unechten Daten nähert sich der Verteilung der echten Daten an.[^1]*|*Abbildung 7:<br />Nach mehreren Durchläufen konvergiert das Netzwerk. Die Verteilungen sind nicht mehr zu unterscheiden.[^1]*|
 
@@ -168,7 +168,7 @@ Das heißt wir brauchen eine andere Option genau das zu bewerkstelligen, noch pr
 
 Kommen wir nun zur Architektur.
 
-![StyleGAN Architekturüberblick](https://github.com/JFJ0831/VIDLMP/blob/37189f8429e432224a7ee94687ff009a734be4a3/12.jpg)
+![StyleGAN Architekturüberblick](/12.jpg)
 
 *Abbildung 8: Überblick über die StyleGAN Architektur [^12]*
 

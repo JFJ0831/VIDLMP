@@ -62,7 +62,7 @@ Der Generator produziert also beispielsweise nur Bilder von Ananas, obwohl in de
 Dieses Problem entsteht, wenn es dem Generator deutlich leichter fällt, mit einer bestimmten Klasse von Daten den Diskriminator zu täuschen.
 Das Generatortraining führt dann dazu, dass immer mehr solcher Daten erzeugt werden, bis letztendlich nur noch Ananasbilder an den Diskriminator übergeben werden.
 Nach einer Weile kann es für den Diskriminator günstig sein die Ananasbilder alle abzulehnen. In der Folge ist der Generator gezwungen auf eine neue Frucht zu wechseln.
-So werden, wie in Abbildung 1 zu sehen, nach und nach alle Klassen durchlaufen, ohne dass es zu einem universell guten geschweige einem optimalen Ergebnis kommt.
+So werden, wie in Abbildung 1 zu sehen, nach und nach alle Klassen durchlaufen, ohne dass es zu einem universell guten, geschweige denn einem optimalen Ergebnis kommt.
 
 ![Abbildung 1](/10_1.png)
 *Abbildung 1: Darstellung von Mode Collapse. Target ist die Verteilung der echten Daten; links ist nach unterschiedlich vielen Trainingsdurchläufen zu erkennen, dass der Generator zwischen verschiedenen Klassen wechselt, es jedoch nicht schafft die gesamte Verteilung zu reproduzieren. [^3]*

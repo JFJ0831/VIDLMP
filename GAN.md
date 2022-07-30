@@ -227,8 +227,6 @@ Darüber hinaus verwendet der StyleGAN Style Mixing. Es werden mehrere latent co
 * Zum anderen schneidet mit Style Mixing der StyleGAN besser ab in einem GAN Bewertungstest, als ohne Style Mixing [^12]
 
 
-
-## Quellen und Referenzen
 [^1]: https://arxiv.org/pdf/1406.2661.pdf "Generative Adversarial Nets"
 [^2]: https://arxiv.org/pdf/1701.07875.pdf "Wasserstein GAN"
 [^3]: https://arxiv.org/pdf/1611.02163.pdf "Unrolled Generative Adversarial Networks"

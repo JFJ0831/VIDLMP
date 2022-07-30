@@ -103,8 +103,7 @@ wie echte Daten $x$ aus einem Intervall $[a, b]$ der Wahrscheinlichkeitsdichtefu
 Der Diskriminator $D$ entscheidet, ob $p_g(x)=p_{data}(x)$, oder nicht. In ersterem Fall ist es dem Generator $G$ gelungen den Diskriminator $D$ zu täuschen.
 Der Generator $G$ erhält, als Eingabe Werte $z$ aus einer beliebigen Verteilung $p_z$. Oft handelt es sich dabei, wie bereits erwähnt, um Gaußsches Rauschen, also die Normalverteilung.
 Aus dieser Eingabe $z$ wird eine Ausgabe $G(z)$ aus der dem Generator zugrunde liegenden Wahrscheinlichkeitsdichte $p_g$ generiert. $p_g$ hat die selbe Definitionsmenge wie $p_{data}$.
-Beim Training des Diskriminators werden die echten Daten $x$ mit dem Label $y=1$ und die unechten Daten $G(z)$ mit dem Label $y=0$ an $D$ übergeben.
-Es handelt sich bei $D$ um ein binäres Klassifikationsnetzwerk. Das neuronale Netzwerk wird in diesem Fall auf die MinMax-Verlustfunktion optimiert:
+Es handelt sich beim Diskriminator $D$ um ein binäres Klassifikationsnetzwerk. Das neuronale Netzwerk wird in diesem Fall auf die MinMax-Verlustfunktion optimiert:
 
 $$ \min_G \max_D⁡ V(D,G) = \mathbb{E}\_{x \sim p_{data}(x)} [ \log ⁡D(x)] + \mathbb{E}_{z \sim p_z (z)} [ \log⁡ (1-D(G(z))) ] $$
 
@@ -112,29 +111,46 @@ Diese Funktion ähnelt stark der binären Kreuzentropie mit $n=1$ Instanzen:
 
 $$ \mathbb{L} = - \sum_{i=1}^n y_i \log (\hat{y_i}) + (1-y_i) \log (1-\hat{y_i}) $$
 
-Für $y=0$ gilt $\mathbb{L} = \log (1-D(G(z)))$ mit $\hat{y} = D(G(z))$.
+Um beispeilsweise in Keras `binary_crossentropy` als Verlustfunktion zu nutzen, müssen beim Training des Diskriminators die echten Daten $x$ mit dem Label $y=1$ und die unechten Daten $G(z)$ mit dem Label $y=0$ an $D$ übergeben werden.
+Folglich kann ein so programmiertes GAN entweder eine Instanz von echten Daten oder eine Instanz von unechten Daten entgegen nehmen.
+Der Diskriminator des originalen Algorithmus [^1] kann aufgrund der geringfügig anderen Verlustfunktionen gleichzeitig echte und unechte Daten verarbeiten. 
 
-Für $y=1$ gilt $\mathbb{L} = \log (D(x))$ mit $\hat{y} = D(x)$.
+Bei der normalen binären Kreuzentropie gilt für $y=0, \hat{y}=D(G(z))$: $\mathbb{L} = - \log (1-D(G(z)))$ und für $y=1, \hat{y}=D(x)$ gilt $\mathbb{L} = - \log (D(x))$.
 
-Daraus ergibt sich $\mathbb{L} = \log (D(x)) + \log (1-D(G(z)))$.
+Addiert man die beiden Fälle, ergibt sich daraus $\mathbb{L} = - \log (D(x)) - \log (1-D(G(z)))$.
 
-Diese Funktion berechnet der Verlust einer Instanz. Um zu erfahren wie der Verlust über den gesamten Datensatz ist, muss der Erwartungswert berechnet werden:
+Diese Funktion soll minimiert werden. Eine Funktion kann stattdessen mit $-1$ multipliziert und dann maximiert werden um zum gleichen Ergebnis zu gelangen.
+Außerdem soll betrachtet werden, wie der Verlust über einen gesamten Datensatz ist. Dazu wird der Erwartungswert berechnet. Die dann daraus resultierende Funktion ist identisch mit $V(D,G)$.
 
 $$ \mathbb{E}(\mathbb{L}) = \int p_{data}(x) \log ⁡D(x)dx + \int p_z (z) \log⁡ (1-D(G(z))dz = V(D,G) $$
 
-$D$ ist dazu angehalten die obere Funktion $V(D,G)$ zu maximieren. 
+$D$ ist dazu angehalten die Funktion $V(D,G)$ zu maximieren. 
 Dies ist der Fall, wenn $D$ echte Daten $x$ als solche erkennt, also $D(x)$ möglichst gegen $1$ geht. $\log D(x)$ nähert sich dann von unten gegen $0$.
 Außerdem sollten generierte Daten $G(z)$ als solche erkannt werden. $D$ muss diesen Daten dementsprechend eine geringe Wahrscheinlichkeit zusprechen zur Klasse der echten Daten zu gehören.
 $D(G(z))$ sollte also gegen $0$ gehen, womit $\log⁡ (1-D(G(z)))$ sich dann ebenfalls von unten der $0$ nähert.
 Ein Diskriminator $D$ der einen Wert von $0$ erreicht wäre somit optimal, während ein schlechter Diskriminator hohe negative Werte erzielen würde.
-Die Gewichte $\theta_d$ werden nun entsprechend angepasst. Dazu wird der Gradient $\nabla_{\theta_d}$ berechnet und Backpropagation angewandt.
+Die Gewichte $\theta_d$ werden nun entsprechend angepasst. Dazu wird der Gradient $\nabla_{\theta_d}$ berechnet und ein Gradientenabstieg durchgeführt.
 
-Der Generator $G$ versucht den Verlust $V(D,G)$ zu maximieren.
-Dazu muss er möglichst $G(z)$ generieren, die $D$ nicht als solche erkennt. $D(G(z))$ muss also möglichst gegen $1$ gehen.
+$$ \nabla_{\theta_d} [\log (D(x)) + \log (1-D(G(z)))] $$
+
+Der Generator $G$ versucht den Verlust $V(D,G)$ zu minimieren.
+Dazu muss er möglichst $G(z)$ generieren, die $D$ nicht als solche erkennt.
+$D(G(z))$ muss also möglichst gegen $1$ gehen, damit $\log (1-D(G(z)))$ möglichst hohe negative Werte annehmen kann.
 Beim Training des Generators werden nur unechte Daten übergeben.
-Jedoch geschiet dies mit dem Label $y=1$, denn dadurch **TEXT EINFÜGEN**
+Bei der Nutzung von `binary_crossentropy` für den Generator in Keras geschiet dies jedoch mit dem Label $y=1$ statt wie beim Diskriminator mit dem Label $y=0$.
+Der Grund dafür liegt darin, dass jetzt die vom Generator generierten Daten vom Diskriminator so behandelt werden, wie dieser auch echte behandelt und insbesondere weil für $y=1$, wie zuvor erläutert, der Verlust anders berechnet wird, als für $y=0$.
+Die Funktion lautet dann nämlich $\mathbb{L} = - \log (\hat{y})$. Wobei hier $\hat{y}=D(G(z))$ ist.
+Je größer $D$ die Wahrscheinlichkeit einschätzt, dass die generierten Daten echt sind, desto niedriger der Wert dieser Funktion und desto besser $G$.
+Damit wird sowohl bei der Nutzung von $V(D,G)$ als auch bei der Nutzung der binären Kreuzentropie das selbe Optimum erreicht.
+
+Das Nash-Gleichgewicht ist erreicht, wenn die Verteilung der echten Daten identisch ist mit der Verteilung der generierten Daten, also $p_{data}(x)=p_{g}(x)$ [^1].
+Der Diskriminator klassifiziert dann zu 50% richtig. 
 
 
+In den folgenden Abbildungen ist schematisch dargestellt, wie sich das GAN und seine Netzwerkteile entwickeln um schlussendlich das Nash-Gleichgewicht zu erreichen.
+Ganz unten in den Abbildungen ist die Verteilung $p_z$ zu erkennen, aus der $z$ gezogen werden, die dann durch den Generator (schwarze Pfeile) zu $x$ werden.
+Die grüne Linie gibt die Wahrscheinlichkeitsdichtefunktion $p_g$ der generierten Daten an. Die schwarz gepunktete Linie bildet $p_{data}$ ab.
+Die blau gestrichelte Linie stellt dar, mit welcher Wahrscheinlichkeit ein $x$ als echt erkannt wird.
 
 <table>
 	<tr>
@@ -144,10 +160,10 @@ Jedoch geschiet dies mit dem Label $y=1$, denn dadurch **TEXT EINFÜGEN**
 		<th><img src="https://github.com/JFJ0831/VIDLMP/blob/8775769721fbca1ca9c5ed038a3db14863064016/08_3.png" title="Abbildung 4" width="100%" id="Abb_1"/></th>
 	</tr>
 	<tr>
-		<th>Abbildung 1</th>
-		<th>Abbildung 2</th>
-		<th>Abbildung 3</th>
-		<th>Abbildung 4</th>
+		<th>Abbildung 1: Der Diskriminator ist noch untrainiert. Die Wahrscheinlichkeit einer korrekten Klassifikation springt relativ stark.</th>
+		<th>Abbildung 2: Der Diskriminator wurde trainiert. Links werden Daten eher als echt eingestuft als rechts, wo zu erkennen ist, dass die generierten Daten anders verteilt sind, als die echten Daten.</th>
+		<th>Abbildung 3: Der Generator wurde traniert. Die Verteilung der unechten Daten nähert sich der Verteilung der echten Daten an.</th>
+		<th>Abbildung 4: Nach mehreren Durchläufen konvergiert das Netzwerk. Die Verteilungen sind nicht mehr zu unterscheiden.</th>
 	</tr>
 </table>
 

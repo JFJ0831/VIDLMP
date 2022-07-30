@@ -137,7 +137,7 @@ Der Generator $G$ versucht den Verlust $V(D,G)$ zu minimieren.
 Dazu muss er möglichst $G(z)$ generieren, die $D$ nicht als solche erkennt.
 $D(G(z))$ muss also möglichst gegen $1$ gehen, damit $\log (1-D(G(z)))$ möglichst hohe negative Werte annehmen kann.
 Beim Training des Generators werden nur unechte Daten übergeben.
-Bei der Nutzung von `binary_crossentropy` für den Generator in Keras geschiet dies jedoch mit dem Label $y=1$ statt wie beim Diskriminator mit dem Label $y=0$.
+Bei der Nutzung von `binary_crossentropy` für den Generator in Keras geschieht dies jedoch mit dem Label $y=1$ statt wie beim Diskriminator mit dem Label $y=0$.
 Der Grund dafür liegt darin, dass jetzt die vom Generator generierten Daten vom Diskriminator so behandelt werden, wie dieser auch echte behandelt und insbesondere weil für $y=1$, wie zuvor erläutert, der Verlust anders berechnet wird, als für $y=0$.
 Die Funktion lautet dann nämlich $\mathbb{L} = - \log (\hat{y})$. Wobei hier $\hat{y}=D(G(z))$ ist.
 Je größer $D$ die Wahrscheinlichkeit einschätzt, dass die generierten Daten echt sind, desto niedriger der Wert dieser Funktion und desto besser $G$.

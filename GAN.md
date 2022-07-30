@@ -227,10 +227,10 @@ Darüber hinaus verwendet der StyleGAN Style Mixing. Es werden mehrere latent co
 * Zum anderen schneidet mit Style Mixing der StyleGAN besser ab in einem GAN Bewertungstest, als ohne Style Mixing [^12]
 
 
-[^1]: https://arxiv.org/pdf/1406.2661.pdf "Generative Adversarial Nets"
-[^2]: https://arxiv.org/pdf/1701.07875.pdf "Wasserstein GAN"
-[^3]: https://arxiv.org/pdf/1611.02163.pdf "Unrolled Generative Adversarial Networks"
-[^5]: https://arxiv.org/pdf/1606.03498.pdf "Improved Techniques for Training GANs"
-[^11]: Géron, Aurélien. Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow : Concepts, Tools, and Techniques to Build Intelligent Systems, O'Reilly Media, Incorporated, 2019.
+[^1]: Ian J. Goodfellow et al., "Generative Adversarial Nets", https://arxiv.org/pdf/1406.2661.pdf
+[^2]: Martin Arjovsky et al, "Wasserstein GAN", https://arxiv.org/pdf/1701.07875.pdf
+[^3]: Luke Metz et al., "Unrolled Generative Adversarial Networks", https://arxiv.org/pdf/1611.02163.pdf
+[^5]: Tim Salimans et al., "Improved Techniques for Training GANs", https://arxiv.org/pdf/1606.03498.pdf
+[^11]: Géron, Aurélien. "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow : Concepts, Tools, and Techniques to Build Intelligent Systems", O'Reilly Media, Incorporated, 2019.
 [^12]: Tero Karras et al., "A Style-Based Generator Architecture for Generative Adversarial Networks", arXiv pre‐print arXiv:1812.04948 (2018). https://openaccess.thecvf.com/content_CVPR_2019/papers/Karras_A_Style-Based_Generator_Architecture_for_Generative_Adversarial_Networks_CVPR_2019_paper.pdf
 [^13]: Huang, Xun, and Serge Belongie. "Arbitrary style transfer in real-time with adaptive instance normalization." Proceedings of the IEEE international conference on computer vision. 2017.

@@ -6,6 +6,11 @@ Generative Adversarial Networks, kurz GAN, gehören zu den generativen Modellen.
 GANs bestehen aus zwei neuronalen Netzen welche gegeneinander antreten.
 Das erste der beiden Netze, Generator genannt, versucht dabei echte Daten so gut zu imitieren, dass das zweite Netz, der Diskriminator, nicht in der Lage ist, die neu generierten Daten von echten Daten zu unterscheiden.
 
+![Abbildung 1](/01.png)
+
+*Abbildung 1: Schematischer Aufbau eines einfachen Generative Adversarial Networks*
+
+
 ## Wozu werden GANs verwendet?
 Im ursprünglichen Forschungspapier von Ian Goodfellow et al. [^1] wurde ein GAN erstellt, welches Bilder von Zahlen generieren kann, die so aussehen, wie die aus dem MNIST-Datensatz.
 Mittlerweile wurden GANs in einer Vielzahl von Anwendungsgebieten erfolgreich eingesetzt. Dazu sei jedoch gesagt, dass die verwendeten Modelle deutlich komplexer geworden sind, als das ursprüngliche und in diesem Blog auch vorwiegend behandelte.
@@ -62,10 +67,10 @@ Der Generator produziert also beispielsweise nur Bilder von Ananas, obwohl in de
 Dieses Problem entsteht, wenn es dem Generator deutlich leichter fällt, mit einer bestimmten Klasse von Daten den Diskriminator zu täuschen.
 Das Generatortraining führt dann dazu, dass immer mehr solcher Daten erzeugt werden, bis letztendlich nur noch Ananasbilder an den Diskriminator übergeben werden.
 Nach einer Weile kann es für den Diskriminator günstig sein die Ananasbilder alle abzulehnen. In der Folge ist der Generator gezwungen auf eine neue Frucht zu wechseln.
-So werden, wie in Abbildung 1 zu sehen, nach und nach alle Klassen durchlaufen, ohne dass es zu einem universell guten, geschweige denn einem optimalen Ergebnis kommt.
+So werden, wie in Abbildung 2 zu sehen, nach und nach alle Klassen durchlaufen, ohne dass es zu einem universell guten, geschweige denn einem optimalen Ergebnis kommt.
 
-![Abbildung 1](/10_1.png)
-*Abbildung 1: Darstellung von Mode Collapse. Target ist die Verteilung der echten Daten; links ist nach unterschiedlich vielen Trainingsdurchläufen zu erkennen, dass der Generator zwischen verschiedenen Klassen wechselt, es jedoch nicht schafft die gesamte Verteilung zu reproduzieren. [^3]*
+![Abbildung 2](/10_1.png)
+*Abbildung 2: Darstellung von Mode Collapse. Target ist die Verteilung der echten Daten; links ist nach unterschiedlich vielen Trainingsdurchläufen zu erkennen, dass der Generator zwischen verschiedenen Klassen wechselt, es jedoch nicht schafft die gesamte Verteilung zu reproduzieren. [^3]*
 
 Auch hier kann die Wassersteinverlustfunktion helfen [^2].
 Daneben gibt es das sogenannte Unrolling [^3].
@@ -82,11 +87,11 @@ Das Training des Generators sieht im Detail folgendermaßen aus:
 	7. Backpropagation des Gradienten über alle Wiederholungen.
 	8. Anpassung der Generatorgewichte mittels Gradientenabstieg.
 
-![Abbildung 2](/11.png)
-*Abbildung 2: Schematische Darstellung eines dreistufigen unrolled GAN. [^3]*
+![Abbildung 3](/11.png)
+*Abbildung 3: Schematische Darstellung eines dreistufigen unrolled GAN. [^3]*
 
-![Abbildung 3](/10_2.png)
-*Abbildung 3: Heatmap der von einem zehnstufigen unrolled GAN generierten Verteilungen. [^3]*
+![Abbildung 4](/10_2.png)
+*Abbildung 4: Heatmap der von einem zehnstufigen unrolled GAN generierten Verteilungen. [^3]*
 
 Außerdem lässt sich Mode Collapse umgehen, indem man nicht nur generierte Daten des aktuellen Generators an den Diskriminator übergibt, sondern auch Daten, die einem vorherigen Generator entstammen.
 Der Diskriminator passt sich so nicht übermäßig an den aktuellen Generator an, sondern auch an vorherige. Ausgaben aktuellerer Generatoren sind dabei meist relevanter als die von älteren. [^11]
@@ -153,7 +158,7 @@ Ganz unten in den Abbildungen ist die Verteilung $p_z$ zu erkennen, aus der $z$ 
 Die grüne Linie gibt die Wahrscheinlichkeitsdichtefunktion $p_g$ der generierten Daten an. Die schwarz gepunktete Linie bildet $p_{data}$ ab.
 Die blau gestrichelte Linie stellt dar, mit welcher Wahrscheinlichkeit ein $x$ als echt erkannt wird.
 
-|<img src="/08_1.png" title="Abbildung 4" width="180" id="Abb_4"/>|<img src="/08_2.png" title="Abbildung 5" width="180" id="Abb_5"/>|<img src="/08_3.png" title="Abbildung 6" width="180" id="Abb_6"/>|<img src="/08_4.png" title="Abbildung 7" width="180" id="Abb_7"/>|
+|<img src="/08_1.png" title="Abbildung 5" width="180" id="Abb_5"/>|<img src="/08_2.png" title="Abbildung 6" width="180" id="Abb_6"/>|<img src="/08_3.png" title="Abbildung 7" width="180" id="Abb_7"/>|<img src="/08_4.png" title="Abbildung 8" width="180" id="Abb_8"/>|
 |---|---|---|---|
 |*Abbildung 4:<br />Der Diskriminator ist noch untrainiert. Die Wahrscheinlichkeit einer korrekten Klassifikation springt relativ stark.[^1]*|*Abbildung 5:<br />Der Diskriminator wurde trainiert. Links werden Daten eher als echt eingestuft als rechts, wo zu erkennen ist, dass die generierten Daten anders verteilt sind, als die echten Daten.[^1]*|*Abbildung 6:<br />Der Generator wurde traniert. Die Verteilung der unechten Daten nähert sich der Verteilung der echten Daten an.[^1]*|*Abbildung 7:<br />Nach mehreren Durchläufen konvergiert das Netzwerk. Die Verteilungen sind nicht mehr zu unterscheiden.[^1]*|
 
@@ -170,7 +175,7 @@ Kommen wir nun zur Architektur.
 
 ![StyleGAN Architekturüberblick](/12.jpg)
 
-*Abbildung 8: Überblick über die StyleGAN Architektur [^12]*
+*Abbildung 9: Überblick über die StyleGAN Architektur [^12]*
 
 ### Mapping Network
 Bevor das eigentliche Bild generiert wird, erstellen wir vorher einen Vektor, der es uns ermöglicht Stellen innerhalb des Bildes, nehmen wir hier Gesichter als Anhaltspunkt, präziser zu manipulieren.

@@ -153,7 +153,7 @@ Ganz unten in den Abbildungen ist die Verteilung $p_z$ zu erkennen, aus der $z$ 
 Die grüne Linie gibt die Wahrscheinlichkeitsdichtefunktion $p_g$ der generierten Daten an. Die schwarz gepunktete Linie bildet $p_{data}$ ab.
 Die blau gestrichelte Linie stellt dar, mit welcher Wahrscheinlichkeit ein $x$ als echt erkannt wird.
 
-|<img src="/08_1.png" title="Abbildung 4" width="180" id="Abb_4"/>|<img src="/08_2.png" title="Abbildung 5" width="180" id="Abb_5"/>|<img src="/08_3.png" title="Abbildung 6" width="180" id="Abb_6"/>|<img src="/08_3.png" title="Abbildung 7" width="180" id="Abb_7"/>|
+|<img src="/08_1.png" title="Abbildung 4" width="180" id="Abb_4"/>|<img src="/08_2.png" title="Abbildung 5" width="180" id="Abb_5"/>|<img src="/08_3.png" title="Abbildung 6" width="180" id="Abb_6"/>|<img src="/08_4.png" title="Abbildung 7" width="180" id="Abb_7"/>|
 |---|---|---|---|
 |*Abbildung 4:<br />Der Diskriminator ist noch untrainiert. Die Wahrscheinlichkeit einer korrekten Klassifikation springt relativ stark.[^1]*|*Abbildung 5:<br />Der Diskriminator wurde trainiert. Links werden Daten eher als echt eingestuft als rechts, wo zu erkennen ist, dass die generierten Daten anders verteilt sind, als die echten Daten.[^1]*|*Abbildung 6:<br />Der Generator wurde traniert. Die Verteilung der unechten Daten nähert sich der Verteilung der echten Daten an.[^1]*|*Abbildung 7:<br />Nach mehreren Durchläufen konvergiert das Netzwerk. Die Verteilungen sind nicht mehr zu unterscheiden.[^1]*|
 
